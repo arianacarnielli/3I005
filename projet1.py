@@ -237,6 +237,6 @@ if __name__ == "__main__":
     #print("\n")
     #rgt_total = opt_total - res[-1]
     #print("regret_total = ", rgt_total)
-    #graphe_regret_temps(opt, rgt, res)
+    graphe_regret_temps(opt, rgt_glou, res_glou)
     graphe_regrets(rgt_alea, rgt_glou, rgt_glou_e, rgt_ucb)
     graphe_gains(res_alea, res_glou, res_glou_e, res_ucb)
