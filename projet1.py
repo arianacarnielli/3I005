@@ -138,7 +138,7 @@ def regret(machine, T, res_temps):
 def moyenne_run(machine, algo, T, n = 100):
     """
     Appele la fonction run n fois appliqué sur les autres arguments.
-    Calcule res_temps moye et mu_moyen et renvoie mu_moyen, Na et res_temps_moyen.
+    Calcule res_temps_moyen et mu_moyen et renvoie mu_moyen, Na et res_temps_moyen.
     """
     mu_moyen, Na, res_temps_moyen =  run(machine, algo, T) 
     for i in range(1, n):

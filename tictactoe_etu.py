@@ -1,4 +1,5 @@
 import numpy as np
+import random as rd
 import copy
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -98,7 +99,8 @@ class MorpionState(State):
         return str(self.hash())
 
 class Agent:
-    """ Classe d'agent generique. Necessite une methode get_action qui renvoie l'action correspondant a l'etat du jeu state"""
+    """ Classe d'agent generique. Necessite une methode get_action qui renvoie l'action correspondant
+    a l'etat du jeu state"""
     def __init__(self):
         pass
     def get_action(self,state):
@@ -115,4 +117,137 @@ class AgentAlea(Agent):
         np.random.shuffle(coups_possibles)
         #print(coups_possibles)
         return coups_possibles[0]
+    
+    
+    
+class AgentMC(Agent):
+    """
+    """
+    def __init__(self, n = 5):
+        super(AgentMC, self).__init__()
+        self.N = n
+    
+    def get_action(self, state):
+        coups_possibles = state.get_actions()
+        rec = dict.fromkeys(coups_possibles, 0)
+        
+        j1 = AgentAlea()
+        
+        for i in range(len(coups_possibles) * self.N):
+            cp = rd.choice(coups_possibles)
+            state_try = state.next(cp)
+            jeu = Jeu(state_try, j1, j1)
+            victoire, _ = jeu.run()
+            rec[cp] += victoire * state.courant
+        
+        coups = sorted(rec, key=(lambda key:rec[key]), reverse=True)
+        return coups[0]
+
+class AgentMTTS(Agent):
+    """
+    """
+    def __init__(self, n = 200):
+        super(AgentMTTS, self).__init__()
+        self.N = n
+    
+    def get_action(self, state):
+        #initialisation du noeud racine
+        racine = Noeud(state)
+        #initialisation du joueur aleatoire
+        j1 = AgentAlea()
+        
+        #recuperation des coups possibles a partir de state
+        coups_possibles = state.get_actions()
+        
+        #creation de noeuds representant tous les coups possibles en sortant de la racine
+        #on joue une fois aléatoirement a partir des coups possibles pour remplir les noeuds
+        for i in range(len(coups_possibles)):
+            state_try = state.next(coups_possibles[i])
+            enfant = Noeud(state_try, racine)
+            racine.kids[coups_possibles[i]] = enfant
+            jeu = Jeu(state_try, j1, j1)
+            victoire, _ = jeu.run()
+            enfant.maj((victoire * enfant.state.courant) * (-1))
+        
+        for i in range(self.N):
+            nd = racine
+            #print("wins racine =" + str(nd.wins))
+            #print("total racine =" + str(nd.total))
+            nd = nd.choix_ucb()
+            jeu = Jeu(nd.state, j1, j1)
+            victoire, _ = jeu.run()
+            #print(nd.state.courant)
+            nd.maj((victoire * nd.state.courant) * (-1))
+     
+#==============================================================================
+        for key,val in racine.kids.items():
+            print(key)
+            print(val.wins) 
+            print(val.wins/val.total)
+        print("fin des tests \n")
+        print(max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total))
+        print("fin d'un tour \n")
+#==============================================================================
+        return max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total)
+        
+
+class Noeud:
+    """
+    """
+    def __init__(self, state, parent = None):
+        self.state = state
+        self.parent = parent
+        self.kids = {}
+        self.wins = 0
+        self.total = 0
+        
+    def maj(self, i):
+        self.wins += i
+        self.total += 1
+        if self.parent is not None:
+            self.parent.maj(i)
+        
+    def choix_ucb(self):
+        #recuperation du state lie au noeud courant
+        state_par = self.state
+        #si on est dans un state terminal, on retourne le noeud courant
+        if state_par.stop():
+            return self
+        #on teste si la liste des enfants de ce noeud a ete deja initialise.
+        #si c'est pas le cas, on l'initialise
+        if self.kids == {}:
+            cp = state_par.get_actions()
+            for i in range (len(cp)):
+                state_try = state_par.next(cp[i])
+                enfant = Noeud(state_try, self)
+                self.kids[cp[i]] = enfant 
+        #s'il y a un enfant qui n'a pas encore ete testé (total = 0), on le retourne
+        for i in self.kids:
+            if self.kids[i].total == 0:
+                return self.kids[i]
+        #tous les enfants on ete visités au moins un fois, on aplique l'algo UCB
+        #et on appele la fonction de façon recursive sur l'enfant choisi    
+        t = sum([noeud.total for noeud in self.kids.values()])
+        #print(max(self.kids, key = lambda k: self.kids[k].wins / self.kids[k].total + np.sqrt(2*np.log(t)/ self.kids[k].total)))
+        return self.kids[max(self.kids, key = lambda k: self.kids[k].wins / self.kids[k].total + np.sqrt(2*np.log(t)/ self.kids[k].total))].choix_ucb()
+        
+#        keys = []
+#        mu = []
+#        Na = []
+#             
+#        for key,val in self.kids.items():
+#            keys.append(key)
+#            mu.append(val.wins/val.total)
+#            Na.append(val.total)
+#            
+#        mu = np.array(mu)
+#        Na = np.array(Na)
+#        t = Na.sum()
+#        index = np.argmax(mu + np.sqrt(2*np.log(t)/Na))
+#        
+#        return self.kids[keys[index]].choix_ucb()        
+        
+
+    
+    
     
