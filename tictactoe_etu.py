@@ -98,6 +98,46 @@ class MorpionState(State):
     def __repr__(self):
         return str(self.hash())
 
+
+class Puissance4State(State):
+    """ Implementation d'un etat du jeu du Morpion. Grille de 3X3. 
+    """
+    NX,NY = 7,6
+    def __init__(self,grid=None,courant=None):
+        super(Puissance4State,self).__init__(grid,courant)
+    def next(self,coup):
+        state =  Puissance4State(self.grid,self.courant)
+        state.grid[coup]=self.courant
+        state.courant *=-1
+        return state
+    
+    def get_actions(self):   
+        pos = []   
+        for x in range(self.NX):
+            for y in range(self.NY):
+                if self.grid[x][y] == 0:
+                    pos.append((x, y))
+                    break
+        
+        return pos
+    
+    def win(self):
+        #for i in [-1,1]:
+            
+        return 0
+    
+    def stop(self):
+        return self.win()!=0 or (self.grid==0).sum()==0
+    def __repr__(self):
+        return str(self.hash())
+
+
+
+
+
+
+
+
 class Agent:
     """ Classe d'agent generique. Necessite une methode get_action qui renvoie l'action correspondant
     a l'etat du jeu state"""
@@ -117,7 +157,6 @@ class AgentAlea(Agent):
         np.random.shuffle(coups_possibles)
         #print(coups_possibles)
         return coups_possibles[0]
-    
     
     
 class AgentMC(Agent):
@@ -178,17 +217,18 @@ class AgentMTTS(Agent):
             victoire, _ = jeu.run()
             #print(nd.state.courant)
             nd.maj((victoire * nd.state.courant) * (-1))
-     
-#==============================================================================
-        for key,val in racine.kids.items():
-            print(key)
-            print(val.wins) 
-            print(val.wins/val.total)
-        print("fin des tests \n")
-        print(max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total))
         print("fin d'un tour \n")
-#==============================================================================
         return max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total)
+#==============================================================================
+#        for key,val in racine.kids.items():
+#            print(key)
+#            print(val.wins) 
+#           print(val.wins/val.total)
+#        print("fin des tests \n")
+#        print(max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total))
+#       print("fin d'un tour \n")
+#==============================================================================
+#       return max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total)
         
 
 class Noeud:

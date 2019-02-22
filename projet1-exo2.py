@@ -75,19 +75,20 @@ def graphe_vic_moy(j1, j2, N = 200):
 
 
 if __name__ == "__main__": 
-    #j1 = tictac.AgentAlea()
+    j1 = tictac.AgentAlea()
     #j1 = tictac.AgentMC()
-    j1 = tictac.AgentMTTS()
+    #j1 = tictac.AgentMTTS()
     
     j2 = tictac.AgentAlea()
     #j2 = tictac.AgentMC()
     #j2 = tictac.AgentMTTS()
 
-    N = 100
+    #N = 1000
     #graphe_vic_moy(j1, j2, N)
 
 
-    state = tictac.MorpionState()
+    state = tictac.Puissance4State()
     jeu = tictac.Jeu(state, j2, j1)
+    #print(state.get_actions)
     victoire, log = jeu.run(draw=True, pause = 2)
     print(victoire)
