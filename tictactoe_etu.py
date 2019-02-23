@@ -100,7 +100,7 @@ class MorpionState(State):
 
 
 class Puissance4State(State):
-    """ Implementation d'un etat du jeu du Morpion. Grille de 3X3. 
+    """ Implementation d'un etat du jeu Puissance 4. Grille de 7X6. 
     """
     NX,NY = 7,6
     def __init__(self,grid=None,courant=None):
@@ -118,25 +118,34 @@ class Puissance4State(State):
                 if self.grid[x][y] == 0:
                     pos.append((x, y))
                     break
-        
         return pos
     
     def win(self):
         #for i in [-1,1]:
-            
+        for x in range (self.NX):
+            for y in range (self.NY - 4):
+                if (self.grid[x][y] == self.grid[x][y + 1] == self.grid[x][y + 2] == self.grid[x][y + 3]):
+                    return self.grid[x][y]
+        for y in range (self.NY):
+            for x in range (self.NX - 4):
+                if (self.grid[x][y] == self.grid[x + 1][y] == self.grid[x + 2][y] == self.grid[x + 3][y]):
+                    return self.grid[x][y]  
+        
+        for x in range (self.NX - 4):
+            for y in range (self.NY - 4):
+                if (self.grid[x][y] == self.grid[x + 1][y + 1] == self.grid[x + 2][y + 2] == self.grid[x + 3][y + 3]):
+                    return self.grid[x][y]  
+               
+        for y in range (self.NY - 4):
+            for x in range (self.NX - 4):
+                if (self.grid[x][y] == self.grid[x + 1][y + 1] == self.grid[x + 2][y + 2] == self.grid[x + 3][y + 3]):
+                    return self.grid[x][y]  
         return 0
     
     def stop(self):
         return self.win()!=0 or (self.grid==0).sum()==0
     def __repr__(self):
         return str(self.hash())
-
-
-
-
-
-
-
 
 class Agent:
     """ Classe d'agent generique. Necessite une methode get_action qui renvoie l'action correspondant
@@ -154,9 +163,7 @@ class AgentAlea(Agent):
         
     def get_action(self, state):
         coups_possibles = state.get_actions()
-        np.random.shuffle(coups_possibles)
-        #print(coups_possibles)
-        return coups_possibles[0]
+        return rd.choice(coups_possibles)
     
     
 class AgentMC(Agent):
@@ -168,24 +175,33 @@ class AgentMC(Agent):
     
     def get_action(self, state):
         coups_possibles = state.get_actions()
-        rec = dict.fromkeys(coups_possibles, 0)
+        vict = dict.fromkeys(coups_possibles, 0)
+        total = dict.fromkeys(coups_possibles, 0)
         
         j1 = AgentAlea()
-        
+        #On garantit que chaque coup est joué au moins une fois.
+        for cp in coups_possibles:
+            state_try = state.next(cp)
+            jeu = Jeu(state_try, j1, j1)
+            victoire, _ = jeu.run()
+            vict[cp] += victoire * state.courant
+            total[cp] += 1
+
         for i in range(len(coups_possibles) * self.N):
             cp = rd.choice(coups_possibles)
             state_try = state.next(cp)
             jeu = Jeu(state_try, j1, j1)
             victoire, _ = jeu.run()
-            rec[cp] += victoire * state.courant
+            vict[cp] += victoire * state.courant
+            total[cp] += 1
         
-        coups = sorted(rec, key=(lambda key:rec[key]), reverse=True)
+        coups = sorted(vict, key=(lambda key:vict[key]/total[key]), reverse=True)
         return coups[0]
 
 class AgentMTTS(Agent):
     """
     """
-    def __init__(self, n = 200):
+    def __init__(self, n = 20):
         super(AgentMTTS, self).__init__()
         self.N = n
     
@@ -206,9 +222,9 @@ class AgentMTTS(Agent):
             racine.kids[coups_possibles[i]] = enfant
             jeu = Jeu(state_try, j1, j1)
             victoire, _ = jeu.run()
-            enfant.maj((victoire * enfant.state.courant) * (-1))
+            enfant.maj(-victoire)
         
-        for i in range(self.N):
+        for i in range(self.N * len(coups_possibles)):
             nd = racine
             #print("wins racine =" + str(nd.wins))
             #print("total racine =" + str(nd.total))
@@ -216,9 +232,9 @@ class AgentMTTS(Agent):
             jeu = Jeu(nd.state, j1, j1)
             victoire, _ = jeu.run()
             #print(nd.state.courant)
-            nd.maj((victoire * nd.state.courant) * (-1))
-        print("fin d'un tour \n")
-        return max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total)
+            nd.maj(-victoire)
+       # print("fin d'un tour \n")
+        return max(racine.kids, key = lambda k: racine.kids[k].loss/racine.kids[k].total)
 #==============================================================================
 #        for key,val in racine.kids.items():
 #            print(key)
@@ -238,11 +254,11 @@ class Noeud:
         self.state = state
         self.parent = parent
         self.kids = {}
-        self.wins = 0
+        self.loss = 0
         self.total = 0
         
     def maj(self, i):
-        self.wins += i
+        self.loss += i * self.state.courant
         self.total += 1
         if self.parent is not None:
             self.parent.maj(i)
@@ -269,7 +285,7 @@ class Noeud:
         #et on appele la fonction de façon recursive sur l'enfant choisi    
         t = sum([noeud.total for noeud in self.kids.values()])
         #print(max(self.kids, key = lambda k: self.kids[k].wins / self.kids[k].total + np.sqrt(2*np.log(t)/ self.kids[k].total)))
-        return self.kids[max(self.kids, key = lambda k: self.kids[k].wins / self.kids[k].total + np.sqrt(2*np.log(t)/ self.kids[k].total))].choix_ucb()
+        return self.kids[max(self.kids, key = lambda k: self.kids[k].loss / self.kids[k].total + np.sqrt(2*np.log(t)/ self.kids[k].total))].choix_ucb()
         
 #        keys = []
 #        mu = []

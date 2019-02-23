@@ -8,8 +8,6 @@ Created on Fri Feb 15 17:00:17 2019
 import tictactoe_etu as tictac
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-
 
 def N_run(j1, j2, N = 200):
     """
@@ -23,18 +21,9 @@ def N_run(j1, j2, N = 200):
         state = tictac.MorpionState()
         jeu = tictac.Jeu(state, j1, j2)
         victoire, _ = jeu.run()
-        if (victoire == 0):
-            nul[i] = nul[i - 1] + 1
-            vic_1[i] = vic_1[i - 1]
-            vic_2[i] = vic_2[i - 1]
-        if (victoire == -1):
-            nul[i] = nul[i - 1]
-            vic_1[i] = vic_1[i - 1]
-            vic_2[i] = vic_2[i - 1] + 1
-        if (victoire == 1):
-            nul[i] = nul[i - 1]
-            vic_1[i] = vic_1[i - 1] + 1
-            vic_2[i] = vic_2[i - 1]     
+        nul[i] = nul[i - 1] + (victoire == 0)
+        vic_1[i] = vic_1[i - 1] + (victoire == 1)
+        vic_2[i] = vic_2[i - 1] + (victoire == -1)
     return vic_1, vic_2, nul
 
 
@@ -75,20 +64,20 @@ def graphe_vic_moy(j1, j2, N = 200):
 
 
 if __name__ == "__main__": 
-    j1 = tictac.AgentAlea()
+    #j1 = tictac.AgentAlea()
     #j1 = tictac.AgentMC()
-    #j1 = tictac.AgentMTTS()
+    j1 = tictac.AgentMTTS()
     
-    j2 = tictac.AgentAlea()
+    #j2 = tictac.AgentAlea()
     #j2 = tictac.AgentMC()
-    #j2 = tictac.AgentMTTS()
+    j2 = tictac.AgentMTTS()
 
-    #N = 1000
-    #graphe_vic_moy(j1, j2, N)
+    N = 100
+    graphe_vic_moy(j1, j2, N)
 
 
-    state = tictac.Puissance4State()
-    jeu = tictac.Jeu(state, j2, j1)
+    #state = tictac.Puissance4State()
+    #jeu = tictac.Jeu(state, j2, j1)
     #print(state.get_actions)
-    victoire, log = jeu.run(draw=True, pause = 2)
-    print(victoire)
+    #victoire, log = jeu.run(draw=True, pause = 1)
+    #print(victoire)

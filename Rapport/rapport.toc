@@ -1,0 +1,6 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}
+\contentsline {section}{\numberline {2}Bandits-manchots}{2}{section.2}
+\contentsline {section}{\numberline {3}Morpion}{2}{section.3}
+\contentsline {section}{\numberline {4}Puissance 4}{2}{section.4}
+\contentsline {section}{\numberline {5}Conclusion}{2}{section.5}
