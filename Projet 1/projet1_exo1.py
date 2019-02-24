@@ -253,11 +253,11 @@ if __name__ == "__main__":
     #print("res = ", res)
     #print("\n")
     opt_total = gain_opt_total(machine, T)
-    print("gain optimal total = ", opt_total)
-    print("\n")
-    opt = gain_opt(machine, T)
-    print("gain optimal = ", opt)
-    print("\n")
+    #print("gain optimal total = ", opt_total)
+    #print("\n")
+    #opt = gain_opt(machine, T)
+    #print("gain optimal = ", opt)
+    #print("\n")
     
     stat_res_alea = stat_run(machine, algo_alea, T)
     stat_res_glou = stat_run(machine, algo_glouton, T)
@@ -274,11 +274,16 @@ if __name__ == "__main__":
     #print("\n")
     #rgt_total = opt_total - res[-1]
     #print("regret_total = ", rgt_total)
-    graphe_regret_temps(opt, rgt_glou, res_glou)
-    graphe_regrets(rgt_alea, rgt_glou, rgt_glou_e, rgt_ucb)
-    graphe_gains(res_alea, res_glou, res_glou_e, res_ucb)
+
+#==============================================================================
+# Décommenter la prochaine partie pour faire les graphes.
+#==============================================================================
+
+    #graphe_regret_temps(opt, rgt_glou, res_glou)
+    #graphe_regrets(rgt_alea, rgt_glou, rgt_glou_e, rgt_ucb)
+    #graphe_gains(res_alea, res_glou, res_glou_e, res_ucb)
     
-    hist_regret_T(stat_rgt_alea, "aléatoire")
-    hist_regret_T(stat_rgt_glou, "glouton")
-    hist_regret_T(stat_rgt_glou_e, r"$\varepsilon$-glouton")
-    hist_regret_T(stat_rgt_ucb, "UCB")
+    #hist_regret_T(stat_rgt_alea, "aléatoire")
+    #hist_regret_T(stat_rgt_glou, "glouton")
+    #hist_regret_T(stat_rgt_glou_e, r"$\varepsilon$-glouton")
+    #hist_regret_T(stat_rgt_ucb, "UCB")

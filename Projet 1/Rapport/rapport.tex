@@ -1,12 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACOTES                                                                           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,11pt]{article}
 
 %-----------------------------------------------------------------------------------%
 % LAYOUT DA PÁGINA                                                                  %
 %-----------------------------------------------------------------------------------%
-\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 %\usepackage{fancyhdr} % Permite controlar como são exibidos os cabeçalhos
 
 %-----------------------------------------------------------------------------------%
@@ -251,6 +251,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
+\pagestyle{plain}
+
 \title{3I005 \\ TME 2--4 : Projet Exploration / Exploitation}
 \author{Ariana Carnielli \\ Yasmine Ikhelif}
 \date{}
@@ -296,6 +298,7 @@ On est alors confronté à un problème du type exploitation \emph{vs} explorati
 L'implémentation de la machine à sous a été faite en stockant les leviers d'une machine comme un tableau de taille $N$ contenant les paramètres $\mu^0, \dots, \mu^{N-1}$ des $N$ machines. La fonction \verb@cree_machine@ permet de créer un tel tableau avec des paramètres choisis de façon aléatoire uniforme dans $[0, 1]^N$. Un coup du jeu est simulée par la fonction \verb@jouer@, qui prend en argument une machine et l'action / levier choisi et rend le gain correspondant au coup joué. Une stratégie pour le jeu est une fonction quelconque prenant en argument un tableau \verb@mu@ donnant la proportion de gains de chaque levier et un deuxième tableau \verb@Na@ contenant la quantité de coups jouées dans chaque levier, et qui renvoie un coup à jouer à la prochaine étape. Les $T$ coups d'une partie sont simulés par la fonction \verb@run@, qui prend en argument la machine, la stratégie et $T$ et qui utilise les fonctions précédentes pour simuler les $T$ coups, renvoyant à la fin les dernières versions des tableaux \verb@mu@ et \verb@Na@ et un tableau de taille $T$ avec le gain cumulé à chaque $t \in \{0, \dotsc, T-1\}$. La fonction \verb@run@ utilise la fonction auxiliaire \verb@mise_a_jour@ qui met à jour les tableaux \verb@mu@ et \verb@Na@ en fonction du levier choisi et du résultat obtenu.
 
 \subsection{Stratégies}
+\label{SecStrategies}
 
 Dans ce projet, quatre stratégies ont été implémentées.
 
@@ -315,13 +318,171 @@ Ces quatre stratégies ont été implémentées comme quatre fonctions, \verb@al
 
 \subsection{Résultats}
 
+La Figure \ref{FigResultsTemps} montre le gain et le regret en fonction de $t$ pour les quatre algorithmes décrits dans la Section \ref{SecStrategies}. Pour cette simulation, on a choisi une machine à $N = 5$ leviers, le paramètre de la loi de Bernoulli de chaque levier ayant été choisi de façon aléatoire uniforme dans $[0, 1]$. On a fait une simulation avec 100 parties, chacune avec $T = 100$ coups. On a choisi une phase d'exploration de 10 coups par levier (donc 50 coups au total) pur l'algorithme glouton et $\varepsilon = 0.1$ pour l'algorithme $\varepsilon$-glouton. Les courbes sont les gains et regret moyens obtenus.
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.75\textwidth]{Gain_T} \\
+(a) \\
+\includegraphics[width=0.75\textwidth]{Regret_T} \\
+(b)
+\caption{(a) Gain et (b) regret en fonction de $t$ pour chacun des quatre algorithmes de la Section \ref{SecStrategies}.}
+\label{FigResultsTemps}
+\end{figure}
+
+On remarque que, dans cette simulation, l'algorithme UCB donne le gain maximal (et donc le regret minimal) parmi les quatre. On y voit aussi clairement que, jusqu'à $t = 50$, les algorithmes glouton et $\varepsilon$-glouton sont en phase d'exploration, la croissance de leur gain et de leur regret dépend ainsi de quel levier ils choisissent à chaque instant. À la fin de cette phase, l'algorithme glouton a trouvé le bon levier et donc son regret reste constant. Comme l'algorithme $\varepsilon$-glouton garde un peu d'exploration, son regret croit lentement après cette phase. L'algorithme UCB a un regret qui croit à chaque fois plus lentement, et de façon plus lente que les autres, lui donnant le plus petit regret à la fin.
+
+\begin{figure}[ht]
+\centering
+\begin{tabular}{@{} >{\centering} m{0.5\textwidth} @{} >{\centering} m{0.5\textwidth} @{}}
+\includegraphics[width=0.5\textwidth]{Hist_alea} & \includegraphics[width=0.5\textwidth]{Hist_glouton} \tabularnewline
+(a) & (b) \tabularnewline
+\includegraphics[width=0.5\textwidth]{Hist_glouton_e} & \includegraphics[width=0.5\textwidth]{Hist_UCB} \tabularnewline
+(c) & (d) \tabularnewline
+\end{tabular}
+\caption{Histogramme des regrets au temps $T = 100$ après 10000 parties pour les algorithmes (a) aléatoire, (b) glouton, (c) $\varepsilon$-glouton et (d) UCB.}
+\label{FigHist}
+\end{figure}
+
+La Figure \ref{FigHist} montre les histogrammes des regrets au temps $T = 100$ après 10000 parties pour chacun des 4 algorithmes, avec les mêmes paramètres que pour la Figure \ref{FigResultsTemps}. On y remarque que l'algorithme UCB donne toujours les plus petits regrets, qui sont concentrés entre 15 et 24. Le comportement des algorithmes glouton et $\varepsilon$-glouton sont similaires, mais avec un regret toujours plus grand pour le $\varepsilon$-glouton car, avec une phase d'exploration de 50 coups, l'algorithme glouton a beaucoup de chances de trouver le meilleur levier parmi les 5, et donc l'exploration faite par l'algorithme $\varepsilon$-glouton après les premiers 50 coups ne lui fait qu'augmenter son regret. Comme attendu, le regret de l'algorithme aléatoire est le pire des quatre.
+
+On peut aussi comparer la qualité des estimées des $\mu^i$ obtenus par les quatre algorithmes dans les simulations de la Figure \ref{FigResultsTemps}, données dans la Table \ref{TabMu}. On y remarque que l'algorithme aléatoire donne les meilleurs estimées, car cet algorithme ne fait que de l'exploration. L'algorithme UCB se concentre sur les leviers avec les plus grandes probabilités de gain, et ainsi ses estimées de $\mu^1$ et $\mu^4$ sont meilleurs que les autres. L'algorithme glouton fait une estimée avec $10$ coups pour chaque levier et ensuite $50$ coups supplémentaires pour le meilleur levier estimé, ce qui lui donne une bonne estimée de $\mu^1$ mais une estimée plus mauvaise des autres $\mu^i$. L'algorithme $\varepsilon$-glouton améliore les estimées par rapport à l'algorithme glouton.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cccccc}
+\hline\hline
+ & $\mu^0$ & $\mu^1$ & $\mu^2$ & $\mu^3$ & $\mu^4$ \tabularnewline
+\hline\hline
+Valeurs réelles & $0.0225$ & $0.9499$ & $0.3808$ & $0.1185$ & $0.8149$ \tabularnewline
+\hline
+Algorithme aléatoire & $0.0205$ & $0.9502$ & $0.3688$ & $0.1236$ & $0.8139$ \tabularnewline
+Algorithme glouton & $0.0270$ & $0.9420$ & $0.4070$ & $0.1340$ & $0.7833$\tabularnewline
+Algorithme $\varepsilon$-glouton & $0.0212$ & $0.9396$ & $0.3772$ & $0.1136$ & $0.8131$\tabularnewline
+Algorithme UCB & $0.0193$ & $0.9420$ & $0.3225$ & $0.0995$ & $0.7998$\tabularnewline
+\hline\hline
+\end{tabular}
+\caption{Valeurs réelles des paramètres $\mu^i$ et valeurs estimées par chacun des algorithmes.}
+\label{TabMu}
+\end{table}
+
+\newpage
+
+\mbox{}
+
+\newpage
 
 \section{Morpion}
 \label{SecMorpion}
 
+\subsection{Description et implémentation fournie}
+
+Dans cette partie, on s'intéresse à des algorithmes pour joueur au morpion. Une implémentation de ce jeu a été fournie, basée sur quatre classes : une classe abstraite \verb@State@ permettant de représenter l'état générique d'un jeu de plateau à deux joueurs, une classe \verb@Jeu@ simulant un jeu générique, une classe \verb@MorpionState@ qui hérite de \verb@State@ et représente l'état d'un jeu de morpion, et une classe abstraite \verb@Agent@ permettant de représenter le comportement d'un agent. Un agent doit être capable, à partir de l'état courant du jeu, de renvoyer l'action qu'il choisit, c'est-à-dire la case qu'il marque avec son symbole, ce qui est fait par une méthode \verb@get_action@ prenant en argument l'état courant \verb@state@ et renvoyant l'action choisie.
+
+\subsection{Stratégies}
+
+Ce projet implémente trois stratégies différentes pour joueur au morpion : une stratégie aléatoire, une stratégie de Monte Carlo et une stratégie Monte Carlo Tree Search.
+
+\begin{itemize}[label=\textbullet, leftmargin=*]
+\item \textbf{Stratégie aléatoire.} La stratégie aléatoire, comme pour le problème des bandits-manchots de la Section \ref{SecBM}, n'utilise aucune information sur l'état du jeu outre les actions possibles et fait un choix aléatoire uniforme d'une de celles-ci. Si une stratégie aléatoire n'est pas intéressante par soi-même, elle sera utilisée comme une partie des deux autres stratégies.
+
+\item \textbf{Stratégie Monte Carlo.} Les algorithmes de ce type consistent à remplacer une exploration exhaustive de l'espace de possibilités par un parcours d'un échantillonnage aléatoire uniforme de cet espace afin d'obtenir une approximation de quelle action est optimale sans tout calculer. Dans notre cas, à un état donné, pour chaque action possible, la stratégie de Monte Carlo simule plusieurs parties aléatoires (à l'aide de la stratégie aléatoire précédente) et calcule le taux de victoire de chaque action, choisissant celle avec le plus grand taux.
+
+\item \textbf{Stratégie Monte Carlo Tree Search (MCTS).} La stratégie de Monte Carlo précédente consiste à regarde uniquement les actions possibles à partir de l'état courant et simuler des joueurs aléatoires ensuite. La stratégie Monte Carlo Tree Search s'intéresse plutôt à l'arbre de toutes les possibilités du jeu à partir de l'état courant et jusqu'à toutes les fins possibles du jeu. Cet algorithme cherche à parcourir cet arbre de façon intelligente, en choisissant en priorité les branches qui ont plus de chances de conduire à une victoire. Plus précisément, il commence par explorer toutes les actions possibles à partir de l'état actuel au moins une fois et utilise l'algorithme UCB décrit dans la Section \ref{SecStrategies} pour choisir quelle branche explorer en priorité après, continuant ainsi jusqu'à un nombre prédéterminé d'explorations.
+\end{itemize}
+
+\subsection{Implémentations}
+
+Dans cette partie, on présente de façon plus détaillée l'implémentation des stratégies Monte Carlo et Monte Carlo Tree Search. L'implémentation de l'algorithme aléatoire n'est pas décrite car elle est triviale.
+
+\subsubsection{Monte Carlo}
+
+L'algorithme de Monte Carlo a été implémenté en créant une classe \verb@AgentMC@ héritant de la classe \verb@Agent@. Elle implémente la méthode \verb@get_action@ en récupérant la liste d'actions possibles à partir de l'état courant et construisant deux dictionnaires indexés par les actions, l'un avec le nombre total de victoires pour chaque action et l'autre avec le nombre total de fois où cette action a été jouée. Pour garantir une exploration minimale, chaque action est jouée au moins une fois, avant de commencer une boucle où, à chaque tour, une action est choisie au hasard de façon uniforme, le prochain état du jeu est calculé, et ensuite cet état est joué par deux stratégies aléatoires afin de déterminer si cette action conduit à une victoire ou une défaite. À la fin une quantité prédéterminée de tours de boucle, la méthode renvoie l'action avec la plus grande proportion de victoires. La quantité de tours de boucle est fixée comme \verb@n@ fois le nombre d'actions possibles, où \verb@n@ est passé en argument facultatif à la classe.
+
+\subsubsection{Monte Carlo Tree Search}
+
+Comme la stratégie MCTS utilise un parcours d'arbre, on commence d'abord par implémenter une structure d'arbre adaptée à nos besoins. Cette structure se base sur la classe \verb@Noeud@, qui stocke l'état du jeu sur ce n\oe{}ud, son n\oe{}ud parent (ou \verb@None@ si c'est la racine), un dictionnaire avec ses n\oe{}uds fils, indexés par les actions qui conduisent à chaque fils, et les quantités de défaites et de parties jouées à partir de ce n\oe{}ud. Cela veut dire qu'un n\oe{}ud stocke la quantité de \emph{défaites} du joueur dont c'est le tour à ce n\oe{}ud.
+
+La classe \verb@Noeud@, outre son constructeur, contient deux fonctions. La première, \verb@maj@, permet de mettre à jour le nombre de défaites de ce n\oe{}ud à partir d'un résultat d'une partie et propage cette information de façon récursive à son parent jusqu'à la racine. La deuxième, \verb@choix_ucb@, choisit le prochain n\oe{}ud à simuler à partir des principes de l'algorithme UCB. Si l'état est un état terminal, cette fonction renvoie le n\oe{}ud lui-même. Sinon, si son tableau avec ses enfants n'a pas encore été initialisé, cette fonction l'initialise. Elle parcourt ensuite le tableau d'enfants et, si elle trouve un enfant qui n'a pas encore été joué, la fonction lui retourne. Sinon, elle utilise l'algorithme UCB pour choisir un de ses enfants et fait un appel récursif à partir de cet enfant.
+
+La classe principale de la stratégie MCTS est la classe \verb@AgentMCTS@, qui hérite de \verb@Agent@ et implémente la fonction \verb@get_action@. Elle initialise d'abord un n\oe{}ud \verb@racine@ lié à l'état courant, crée ses fils directs et joue une fois avec la stratégie aléatoire à partir de chacun d'eux. Ensuite, elle fait une boucle avec une quantité prédéterminée de tours. À chaque tour, la fonction \verb@choix_ucb@ est appelée sur la racine afin de déterminer un n\oe{}ud terminal ou qui n'a pas encore été joué. Un jeu est simulé à partir de ce n\oe{}ud et le résultat est propagé vers ses ascendants à l'aide de la fonction \verb@maj@. À la fin de cette boucle, la fonction regarde la quantité de défaites des fils de la racine et choisit celui avec le plus grand taux de défaites, ce qui correspond au plus grand taux de victoires pour le joueur de la racine. La quantité de tours de boucle est fixée comme \verb@n@ fois le nombre d'actions possibles, où \verb@n@ est passé en argument facultatif à la classe.
+
+\subsection{Résultats}
+
+Avant de présenter les résultats, rappelons que, dans le morpion, le premier joueur a un avantage naturel. Par exemple, lorsque le jeu se joue jusqu'à ce que la grille soit remplie, le premier joueur aura joué 5 coups, alors que le deuxième n'en aura joué que 4. En plus, le premier joueur a à sa disposition, au début, les 8 façons possibles de gagner (3 lignes, 3 colonnes et les deux diagonales), mais, après son premier coup, le deuxième joueur aura moins de façons possibles de gagner (4 si le premier joueur commence par le centre, 5 s'il commence par l'un des quatre coins ou 6 s'il commence dans l'une des quatre autres cases).
+
+La Figure \ref{FigMorpion} montre l'évolution des proportions des victoires des joueurs 1 et 2 et de matchs nuls en fonction du nombre $N$ de parties jouées pour deux joueurs aléatoires. Elle illustre l'avantage donné par le jeu au premier joueur, qui a environ deux fois plus de chances de victoire que le deuxième joueur. Ces moyennes deviennent évidemment plus précises lorsque le nombre de parties jouées augmente.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{TicTacToe}
+\caption{Évolution des proportions de victoires des joueurs 1 et 2 et de matchs nuls entre deux joueurs aléatoires.}
+\label{FigMorpion}
+\end{figure}
+
+La Table \ref{TabMorpion} présente les proportions de victoires des joueurs 1 et 2 et de matchs nuls au bout de $1000$ parties pour chaque combinaison possible des stratégies pour les deux joueurs. Pour les joueurs Monte Carlo et MCTS, le paramètre \verb@n@ déterminant la quantité de tours de boucle dans son implémentation a été fixé à $20$.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cc|ccc}
+\hline\hline
+Joueur 1 & Joueur 2 & Victoire du joueur 1 & Match nul & Victoire du joueur 2 \tabularnewline
+\hline
+Aléatoire & Aléatoire &     $57.2\%$ & $11.7\%$ & $31.1\%$ \tabularnewline
+Aléatoire & Monte Carlo &   $14.5\%$ & $6.3\%$ & $79.2\%$ \tabularnewline
+Aléatoire & MCTS &          $1.7\%$ & $10.3\%$ & $88.0\%$ \tabularnewline
+Monte Carlo & Aléatoire &   $94.8\%$ & $3.8\%$ & $1.4\%$ \tabularnewline
+Monte Carlo & Monte Carlo & $64.1\%$ & $15.7\%$ & $20.2\%$ \tabularnewline
+Monte Carlo & MCTS &        $13.7\%$ & $45.8\%$ & $40.5\%$ \tabularnewline
+MCTS & Aléatoire &          $99.3\%$ & $0.7\%$ & $0.0\%$ \tabularnewline
+MCTS & Monte Carlo &        $83.9\%$ & $15.8\%$ & $0.3\%$ \tabularnewline
+MCTS & MCTS &               $23.2\%$ & $76.2\%$ & $0.6\%$ \tabularnewline
+\hline\hline
+\end{tabular}
+\caption{Proportions de victoires des joueurs 1 et 2 et de matchs nuls pour les différentes combinaisons possibles de stratégies dans le jeu de morpion.}
+\label{TabMorpion}
+\end{table}
+
+La première ligne de la Table \ref{TabMorpion} met en évidence l'avantage du premier joueur et confirme les résultats montrés dans la Figure \ref{FigMorpion}. Elle montre aussi la hiérarchie entre les stratégies aléatoire, Monte Carlo et MCTS. Ainsi, même en tant que premier joueur, la stratégie aléatoire perd beaucoup de Monte Carlo et presque à chaque fois de MCTS, qui a un taux de $88\%$ de victoires malgré le désavantage d'être le second joueur. En premier joueur, la stratégie de Monte Carlo gagne presque à chaque fois de l'aléatoire et a un bon taux de victoires contre elle-même, mais, contre MCTS, le plus probable est d'avoir un match nul, avec aussi une grande probabilité pour que MCTS gagne, même en second joueur. Lorsque MCTS est le premier joueur, il gagne presque systématiquement contre l'aléatoire, avec un taux très faible de match nuls et aucune défaite. Son taux de victoires contre Monte Carlo est lui aussi très grand. Quand deux joueurs MCTS jouent l'un contre l'autre, la probabilité de match nul est assez élevée, et, lorsqu'il n'y a pas match nul, c'est presque toujours le premier joueur qui l'emporte. Cela se rapproche de la stratégie optimale pour morpion, dans laquelle on a un match nul à coup sûr. Il est possible de se rapprocher de cette situation en augmentant le paramètre \verb@n@ de MCTS déterminant le nombre de tours de boucle, mais cela rend aussi ce joueur plus lent. Avec \verb@n = 20@, l'ensemble des simulations de la Table \ref{TabMorpion} a pris environ 30min pour s'exécuter, dont environ 20min pour le remplissage de ses trois dernières lignes.
+
+Une amélioration envisageable du code serait de réutiliser l'arbre d'un coup à l'autre. En effet, à chaque fois que l'on demande son action à un joueur MCTS, il construit à partir de zéro l'arbre du jeu à partir de l'état actuel. Une fois son coup choisi et retourné, cet arbre n'est plus réutilisé, et un nouvel arbre est construit à partir de zéro à la prochaine fois qu'on lui demande une action. Pour garder de l'information entre un coup et l'autre, on pourrait stocker l'arbre comme variable d'instance pour le joueur et le mettre à jour à chaque coup joué. Pour cela, il faut prendre en compte le coup qu'il a joué et aussi le coup joué par l'autre joueur.
+
 \section{Puissance 4}
 \label{SecPuissance4}
+
+\subsection{Description et implémentation}
+
+Les algorithmes pour jouer au morpion de la Section \ref{SecMorpion} ont été appliqués au jeu Puissance 4. Ce jeu se joue sur une grille à 6 lignes et 7 colonnes et l'objectif d'un joueur est d'aligner 4 de ses pièces dans l'horizontale, verticale ou diagonale. Les joueurs ne peuvent pas placer leurs pièces de façon arbitraire : à son tour, un joueur choisit une colonne et y place sa pièce obligatoirement dans la ligne la plus en bas possible.
+
+Les stratégies implémentées pour le morpion marchent sans aucune modification pour le jeu Puissance 4, car elles se basent sur les méthodes de la classe abstraite \verb@State@. Ainsi, pour implémenter ce jeu, il suffit d'implémenter une classe héritant de \verb@State@, que l'on a appelée \verb@Puissance4State@. Dans cette classe, il suffit d'implémenter les fonctions \verb@get_actions@, qui donnent les actions possibles d'un joueur à son tour, \verb@win@, qui détermine si l'un des deux joueurs a gagné le jeu et, si oui, lequel, et \verb@stop@, qui détermine si le jeu est terminé, soit par la victoire d'un des deux joueurs ou par le remplissage complet de la grille.
+
+\subsection{Résultats}
+
+Comme pour le jeu de morpion, le jeu Puissance 4 donne un avantage au premier joueur, ce qui a été découvert en 1988 de façon indépendante et presque simultanée par James Dow Allen et Victor Allis, mais cet avantage est moins significative que pour le jeu de morpion. Nous avons simulé $500$ parties pour chaque combinaison possible de stratégies pour les deux joueurs d'un jeu de Puissance 4, les proportions de victoires des joueurs 1 et 2 et de matchs nuls étant représentés dans la Table \ref{TabP4}.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cc|ccc}
+\hline\hline
+Joueur 1 & Joueur 2 & Victoire du joueur 1 & Match nul & Victoire du joueur 2 \tabularnewline
+\hline
+Aléatoire & Aléatoire &     $49.4\%$ & $5.0\%$ & $45.6\%$ \tabularnewline
+Aléatoire & Monte Carlo &   $5.6\%$ & $0.4\%$ & $94.0\%$ \tabularnewline
+Aléatoire & MCTS &          $0.0\%$ & $0.2\%$ & $99.8\%$ \tabularnewline
+Monte Carlo & Aléatoire &   $95.8\%$ & $0.2\%$ & $4.0\%$ \tabularnewline
+Monte Carlo & Monte Carlo & $49.0\%$ & $4.6\%$ & $46.4\%$ \tabularnewline
+Monte Carlo & MCTS &        $7.2\%$ & $4.6\%$ & $88.2\%$ \tabularnewline
+MCTS & Aléatoire &          $100.0\%$ & $0.0\%$ & $0.0\%$ \tabularnewline
+MCTS & Monte Carlo &        $94.0\%$ & $3.6\%$ & $2.4\%$ \tabularnewline
+MCTS & MCTS &               $43.8\%$ & $17.4\%$ & $38.8\%$ \tabularnewline
+\hline\hline
+\end{tabular}
+\caption{Proportions de victoires des joueurs 1 et 2 et de matchs nuls pour les différentes combinaisons possibles de stratégies dans le jeu Puissance 4.}
+\label{TabP4}
+\end{table}
+
+On remarque, dans le match entre deux joueurs aléatoires, l'avantage du premier joueur, qui est cependant beaucoup moins importante que dans le cas du morpion. Contre les stratégies Monte Carlo ou MCTS, le joueur aléatoire perd presque à chaque fois, peu importe s'il est le premier ou deuxième joueur. Lorsque les deux joueurs suivent la stratégie Monte Carlo, les résultats ne sont pas très différents que dans le cas de deux joueurs aléatoires. Encore une fois, le joueur MCTS est celui avec la meilleure stratégie, gagnant presque toutes les parties contre les autres joueurs. Le cas entre deux joueurs MCTS est aussi celui avec le plus d'occurrences de matchs nuls.
+
 
 \section{Conclusion}
 

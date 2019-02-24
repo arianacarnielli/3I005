@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.8)  24 FEB 2019 02:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.8)  24 FEB 2019 21:09
 entering extended mode
 **./rapport.tex
 (rapport.tex
@@ -6,8 +6,8 @@ LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 75 language(s) loaded.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\size12.clo"
-File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\size11.clo"
+File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -1583,22 +1583,22 @@ File: t1jkp.fd 2007/01/24 Fontinst v1.928 font definitions for T1/jkp.
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
 * h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
-* v-part:(T,H,B)=(85.35826pt, 674.33032pt, 85.35826pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
 * \textwidth=455.24411pt
-* \textheight=674.33032pt
+* \textheight=702.78308pt
 * \oddsidemargin=-1.1381pt
 * \evensidemargin=-1.1381pt
-* \topmargin=-23.91173pt
+* \topmargin=-38.1381pt
 * \headheight=12.0pt
 * \headsep=25.0pt
-* \topskip=12.0pt
+* \topskip=11.0pt
 * \footskip=30.0pt
-* \marginparwidth=35.0pt
+* \marginparwidth=50.0pt
 * \marginparsep=10.0pt
 * \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -1659,27 +1659,27 @@ LaTeX Info: Redefining \nameref on input line 252.
 \@outlinefile=\write4
 \openout4 = `rapport.out'.
 
-LaTeX Font Info:    Try loading font information for OT1+jkp on input line 259.
+LaTeX Font Info:    Try loading font information for OT1+jkp on input line 261.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ot1jkp.fd
 File: ot1jkp.fd 2007/08/30 Fontinst v1.928 font definitions for OT1/jkp.
 )
-LaTeX Font Info:    Try loading font information for U+jkpsya on input line 259.
+LaTeX Font Info:    Try loading font information for U+jkpsya on input line 261.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpsya.fd
 File: ujkpsya.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+jkpsyb on input line 259.
+LaTeX Font Info:    Try loading font information for U+jkpsyb on input line 261.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpsyb.fd
 File: ujkpsyb.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+jkpmia on input line 259.
+LaTeX Font Info:    Try loading font information for U+jkpmia on input line 261.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpmia.fd
 File: ujkpmia.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+jkpsyc on input line 259.
+LaTeX Font Info:    Try loading font information for U+jkpsyc on input line 261.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpsyc.fd
 File: ujkpsyc.fd 2006/08/15 v1.0
@@ -1689,44 +1689,92 @@ File: ujkpsyc.fd 2006/08/15 v1.0
 
  [1
 
-{C:/Users/arian/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-LaTeX Font Info:    Try loading font information for T1+jkptt on input line 296.
+{C:/Users/arian/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+LaTeX Font Info:    Try loading font information for T1+jkptt on input line 298.
  (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\t1jkptt.fd
 File: t1jkptt.fd 2007/01/26 Fontinst v1.928 font definitions for T1/jkptt.
-)
-LaTeX Font Info:    Try loading font information for TS1+jkp on input line 302.
+) [2]
+LaTeX Font Info:    Try loading font information for TS1+jkp on input line 305.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ts1jkp.fd
 File: ts1jkp.fd 2007/08/30 Fontinst v1.928 font definitions for TS1/jkp.
-) [3] [4] [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 326.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 326.
+) [3]
+Underfull \hbox (badness 3735) in paragraph at lines 317--318
+[]\T1/jkp/m/n/10.95 Ces quatre stra-té-gies ont été im-plé-men-tées comme quatre fonc-tions, [][]\T1/jkptt/m/n/10.95 alg
+o_alea[]\T1/jkp/m/n/10.95 ,
+ []
+
+<Gain_T.png, id=121, 462.528pt x 345.4506pt>
+File: Gain_T.png Graphic file (type png)
+ <use Gain_T.png>
+Package pdftex.def Info: Gain_T.png used on input line 325.
+(pdftex.def)             Requested size: 341.43307pt x 255.01799pt.
+ <Regret_T.png, id=123, 462.528pt x 345.4506pt>
+File: Regret_T.png Graphic file (type png)
+
+<use Regret_T.png>
+Package pdftex.def Info: Regret_T.png used on input line 327.
+(pdftex.def)             Requested size: 341.43307pt x 255.01799pt.
+ <Hist_alea.png, id=126, 462.528pt x 345.4506pt>
+File: Hist_alea.png Graphic file (type png)
+ <use Hist_alea.png>
+Package pdftex.def Info: Hist_alea.png used on input line 338.
+(pdftex.def)             Requested size: 227.62206pt x 170.00496pt.
+
+<Hist_glouton.png, id=127, 462.528pt x 345.4506pt>
+File: Hist_glouton.png Graphic file (type png)
+ <use Hist_glouton.png>
+Package pdftex.def Info: Hist_glouton.png used on input line 338.
+(pdftex.def)             Requested size: 227.62206pt x 170.00496pt.
+
+<Hist_glouton_e.png, id=128, 462.528pt x 345.4506pt>
+File: Hist_glouton_e.png Graphic file (type png)
+ <use Hist_glouton_e.png>
+Package pdftex.def Info: Hist_glouton_e.png used on input line 340.
+(pdftex.def)             Requested size: 227.62206pt x 170.00496pt.
+
+<Hist_UCB.png, id=129, 462.528pt x 345.4506pt>
+File: Hist_UCB.png Graphic file (type png)
+ <use Hist_UCB.png>
+Package pdftex.def Info: Hist_UCB.png used on input line 340.
+(pdftex.def)             Requested size: 227.62206pt x 170.00496pt.
+ [4] [5 <./Gain_T.png> <./Regret_T.png>] [6 <./Hist_alea.png> <./Hist_glouton.png> <./Hist_glouton_e.png> <./Hist_UCB.pn
+g>] [7]
+<TicTacToe.png, id=164, 462.528pt x 345.4506pt>
+File: TicTacToe.png Graphic file (type png)
+ <use TicTacToe.png>
+Package pdftex.def Info: TicTacToe.png used on input line 418.
+(pdftex.def)             Requested size: 318.66948pt x 238.01854pt.
+ [8] [9 <./TicTacToe.png>] [10] [11]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 491.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 491.
  (rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 326.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 326.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 491.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 491.
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 4E8520458B4AE6F265D689E05476F345;434.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 326.
+(rerunfilecheck)             Checksum: B5453682C371484EE9E8A424082E92B4;1085.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 491.
  ) 
 Here is how much of TeX's memory you used:
- 24184 strings out of 493323
- 457527 string characters out of 3139066
- 568961 words of memory out of 3000000
- 27232 multiletter control sequences out of 15000+200000
- 74376 words of font info for 99 fonts, out of 3000000 for 9000
+ 24261 strings out of 493323
+ 458665 string characters out of 3139066
+ 573858 words of memory out of 3000000
+ 27278 multiletter control sequences out of 15000+200000
+ 80940 words of font info for 102 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,6n,71p,1427b,510s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,15n,71p,1670b,514s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}{C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/kp
 fonts/kpfonts-expert.enc}<C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpbn8a.pfb><C:/Users/ari
 an/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpex.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type
 1/public/kpfonts/jkpmi.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpmit8a.pfb><C:/Users/
 arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpmn8a.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts
-/type1/public/kpfonts/jkpmne.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpsy.pfb><C:/Use
-rs/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpsyb.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fon
-ts/type1/public/kpfonts/jkpttmn8a.pfb>
-Output written on rapport.pdf (5 pages, 95174 bytes).
+/type1/public/kpfonts/jkpmne.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpmsc8a.pfb><C:/
+Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpsy.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/f
+onts/type1/public/kpfonts/jkpsyb.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpttmn8a.pfb
+>
+Output written on rapport.pdf (11 pages, 309490 bytes).
 PDF statistics:
- 121 PDF objects out of 1000 (max. 8388607)
- 15 named destinations out of 1000 (max. 500000)
- 77 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 237 PDF objects out of 1000 (max. 8388607)
+ 36 named destinations out of 1000 (max. 500000)
+ 184 words of extra memory for PDF output out of 10000 (max. 10000000)
 

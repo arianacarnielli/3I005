@@ -1,0 +1,18 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}
+\contentsline {section}{\numberline {2}Bandits-manchots}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Description}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Impl\IeC {\'e}mentation du jeu}{2}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Strat\IeC {\'e}gies}{3}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}R\IeC {\'e}sultats}{4}{subsection.2.4}
+\contentsline {section}{\numberline {3}Morpion}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}Description et impl\IeC {\'e}mentation fournie}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Strat\IeC {\'e}gies}{7}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Impl\IeC {\'e}mentations}{7}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Monte Carlo}{7}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Monte Carlo Tree Search}{7}{subsubsection.3.3.2}
+\contentsline {subsection}{\numberline {3.4}R\IeC {\'e}sultats}{8}{subsection.3.4}
+\contentsline {section}{\numberline {4}Puissance 4}{10}{section.4}
+\contentsline {subsection}{\numberline {4.1}Description et impl\IeC {\'e}mentation}{10}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}R\IeC {\'e}sultats}{10}{subsection.4.2}
+\contentsline {section}{\numberline {5}Conclusion}{10}{section.5}

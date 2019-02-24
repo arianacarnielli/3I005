@@ -1,9 +1,0 @@
-\select@language {french}
-\contentsline {section}{\numberline {1}Introduction}{1}{section.1}
-\contentsline {section}{\numberline {2}Bandits-manchots}{2}{section.2}
-\contentsline {subsection}{\numberline {2.1}Description}{2}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Impl\IeC {\'e}mentation du jeu}{3}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Strat\IeC {\'e}gies}{3}{subsection.2.3}
-\contentsline {section}{\numberline {3}Morpion}{4}{section.3}
-\contentsline {section}{\numberline {4}Puissance 4}{4}{section.4}
-\contentsline {section}{\numberline {5}Conclusion}{4}{section.5}

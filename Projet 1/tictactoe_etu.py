@@ -121,21 +121,21 @@ class Puissance4State(State):
         return pos
     
     def win(self):
-        #for i in [-1,1]:
+        #victoire horizontale?
         for x in range (self.NX):
             for y in range (self.NY - 4):
                 if (self.grid[x][y] == self.grid[x][y + 1] == self.grid[x][y + 2] == self.grid[x][y + 3]):
                     return self.grid[x][y]
+        #Victoire verticale?
         for y in range (self.NY):
             for x in range (self.NX - 4):
                 if (self.grid[x][y] == self.grid[x + 1][y] == self.grid[x + 2][y] == self.grid[x + 3][y]):
                     return self.grid[x][y]  
-        
+        #Victoire diagonale?
         for x in range (self.NX - 4):
             for y in range (self.NY - 4):
                 if (self.grid[x][y] == self.grid[x + 1][y + 1] == self.grid[x + 2][y + 2] == self.grid[x + 3][y + 3]):
-                    return self.grid[x][y]  
-               
+                    return self.grid[x][y]      
         for y in range (self.NY - 4):
             for x in range (self.NX - 4):
                 if (self.grid[x][y] == self.grid[x + 1][y + 1] == self.grid[x + 2][y + 2] == self.grid[x + 3][y + 3]):
@@ -156,7 +156,7 @@ class Agent:
         pass
 
 class AgentAlea(Agent):
-    """
+    """Agent aléatoire.
     """
     def __init__(self):
         super(AgentAlea, self).__init__()
@@ -167,7 +167,7 @@ class AgentAlea(Agent):
     
     
 class AgentMC(Agent):
-    """
+    """Agente Monte Carlo.
     """
     def __init__(self, n = 5):
         super(AgentMC, self).__init__()
@@ -186,7 +186,7 @@ class AgentMC(Agent):
             victoire, _ = jeu.run()
             vict[cp] += victoire * state.courant
             total[cp] += 1
-
+        #(N * quantité de coups possibles) tours de boucle de recherche 
         for i in range(len(coups_possibles) * self.N):
             cp = rd.choice(coups_possibles)
             state_try = state.next(cp)
@@ -198,11 +198,11 @@ class AgentMC(Agent):
         coups = sorted(vict, key=(lambda key:vict[key]/total[key]), reverse=True)
         return coups[0]
 
-class AgentMTTS(Agent):
-    """
+class AgentMCTS(Agent):
+    """ Agente Monte Carlo Tree Search.
     """
     def __init__(self, n = 20):
-        super(AgentMTTS, self).__init__()
+        super(AgentMCTS, self).__init__()
         self.N = n
     
     def get_action(self, state):
@@ -224,6 +224,7 @@ class AgentMTTS(Agent):
             victoire, _ = jeu.run()
             enfant.maj(-victoire)
         
+        #(N * quantité de coups possibles) tours de boucle de recherche 
         for i in range(self.N * len(coups_possibles)):
             nd = racine
             #print("wins racine =" + str(nd.wins))
@@ -233,22 +234,11 @@ class AgentMTTS(Agent):
             victoire, _ = jeu.run()
             #print(nd.state.courant)
             nd.maj(-victoire)
-       # print("fin d'un tour \n")
+        #print("fin d'un tour \n")
         return max(racine.kids, key = lambda k: racine.kids[k].loss/racine.kids[k].total)
-#==============================================================================
-#        for key,val in racine.kids.items():
-#            print(key)
-#            print(val.wins) 
-#           print(val.wins/val.total)
-#        print("fin des tests \n")
-#        print(max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total))
-#       print("fin d'un tour \n")
-#==============================================================================
-#       return max(racine.kids, key = lambda k: racine.kids[k].wins/racine.kids[k].total)
-        
 
 class Noeud:
-    """
+    """ Impleméntation d'un arbre, necessaire pour l'agent Monte Carlo Tree Search.
     """
     def __init__(self, state, parent = None):
         self.state = state
@@ -286,24 +276,6 @@ class Noeud:
         t = sum([noeud.total for noeud in self.kids.values()])
         #print(max(self.kids, key = lambda k: self.kids[k].wins / self.kids[k].total + np.sqrt(2*np.log(t)/ self.kids[k].total)))
         return self.kids[max(self.kids, key = lambda k: self.kids[k].loss / self.kids[k].total + np.sqrt(2*np.log(t)/ self.kids[k].total))].choix_ucb()
-        
-#        keys = []
-#        mu = []
-#        Na = []
-#             
-#        for key,val in self.kids.items():
-#            keys.append(key)
-#            mu.append(val.wins/val.total)
-#            Na.append(val.total)
-#            
-#        mu = np.array(mu)
-#        Na = np.array(Na)
-#        t = Na.sum()
-#        index = np.argmax(mu + np.sqrt(2*np.log(t)/Na))
-#        
-#        return self.kids[keys[index]].choix_ucb()        
-        
 
-    
     
     
