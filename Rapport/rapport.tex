@@ -278,13 +278,44 @@ Finalement, ces mêmes algorithmes, ayant été codés de façon généraliste, 
 
 On considère une machine à sous avec $N$ leviers, numérotés par les entiers de $0$ à $N-1$. Chaque levier, lorsqu'il est actionné, peut donner une récompense de $0$ ou $1$ de façon aléatoire. On suppose que tous les leviers sont indépendants, que deux actionnements différents du même levier sont aussi indépendantes, et que la récompense du levier $i$ suit une loi de Bernoulli de paramètre $\mu^i$ constant en temps.
 
-On dispose de $T$ parties pour jouer à la machine à sous. À chaque partie $t \in \{0, \dotsc, T-1\}$ , on choisit une \emph{action} $a_t \in \{0, \dotsc, N-1\}$, qui représente le levier choisi pour cette partie, et on accumule le gain obtenu avec ce levier, noté par $r_t$. Ainsi, $r_t$ est une variable aléatoire suivant une loi de Bernoulli de paramètre $\mu^{a_t}$. L'objectif est de maximiser le gain total $G_T$ obtenu au bout de $T$ parties, $G_T = \sum_{t=0}^{T-1} r_t$. Comme $G_T$ est une variable aléatoire, on maximise son espérance, qui vaut
+On dispose de $T$ coups pour jouer à la machine à sous. À chaque coup $t \in \{0, \dotsc, T-1\}$ , on choisit une \emph{action} $a_t \in \{0, \dotsc, N-1\}$, qui représente le levier choisi pour ce coup, et on accumule le gain obtenu avec ce levier, noté par $r_t$. Ainsi, $r_t$ est une variable aléatoire suivant une loi de Bernoulli de paramètre $\mu^{a_t}$. L'objectif est de maximiser le gain total $G_T$ obtenu au bout de $T$ coups, $G_T = \sum_{t=0}^{T-1} r_t$. Comme $G_T$ est une variable aléatoire, on maximise son espérance, qui vaut
 \[
 \mathbb E(G_T) = \mathbb E\left(\sum_{t=0}^{T-1} r_t\right) = \sum_{t=0}^{T-1} \mathbb E(r_t) = \sum_{t=0}^{T-1} \mu^{a_t}.
 \]
 Ainsi, si les $\mu^0, \dotsc, \mu^{N-1}$ étaient connus, la stratégie maximisant son espérance serait de choisir
-\[a_t = \argmax_{i \in \{0, \dotsc, N-1\}} \mu^i.\]
-Comme les $\mu^i$ ne sont pas connus, on est confronté à un problème du type exploitation \emph{vs} exploration, où l'exploration consiste à tester les leviers afin d'estimer leurs paramètres $\mu^i$ et l'exploitation consiste à jouer le levier avec le plus grand paramètre $\mu^i$ estimé.
+\[a_t = \argmax_{i \in \{0, \dotsc, N-1\}} \mu^i\]
+pour tout $t \in \{0, \dotsc, T-1\}$. Si on note $\mu^\ast$ la valeur maximale de $\{\mu_0, \dotsc, \mu_{N-1}\}$ et $G_T^\ast$ la variable aléatoire $G_T$ avec la stratégie $a_t$ définie ci-dessus, le maximum de l'espérance de $G_T$ vaut $\mathbb E(G_T^\ast) = \sum_{t=0}^{T-1} \mu^\ast = T \mu^\ast$.
+
+Comme les $\mu^i$ ne sont pas connus, la stratégie ci-dessus ne peut pas être utilisée en pratique. Pour une autre stratégie, on s'intéresse au regret $L_T$ du joueur au bout de $T$ coups, défini comme la différence entre l'espérance du gain obtenu avec la stratégie optimale ci-dessus et son gain réel, $L_T = \mathbb E(G_T^\ast) - G_T = T \mu^\ast - \sum_{t=0}^{T-1} r_t$. Cette définition est légèrement différente de celle donnée dans l'énoncé du projet car on utilise l'espérance de $G_T^\ast$ au lieu d'un $G_T^\ast$ aléatoire. Ce choix, arbitraire, a été fait pour assurer que, lorsque deux résultats identiques sont obtenus par deux joueurs, leur regret sera aussi identique.
+
+On est alors confronté à un problème du type exploitation \emph{vs} exploration, où l'exploration consiste à tester les leviers afin d'estimer leurs paramètres $\mu^i$ et l'exploitation consiste à jouer le levier avec le plus grand paramètre $\mu^i$ estimé.
+
+\subsection{Implémentation du jeu}
+\label{SecImplementation}
+
+L'implémentation de la machine à sous a été faite en stockant les leviers d'une machine comme un tableau de taille $N$ contenant les paramètres $\mu^0, \dots, \mu^{N-1}$ des $N$ machines. La fonction \verb@cree_machine@ permet de créer un tel tableau avec des paramètres choisis de façon aléatoire uniforme dans $[0, 1]^N$. Un coup du jeu est simulée par la fonction \verb@jouer@, qui prend en argument une machine et l'action / levier choisi et rend le gain correspondant au coup joué. Une stratégie pour le jeu est une fonction quelconque prenant en argument un tableau \verb@mu@ donnant la proportion de gains de chaque levier et un deuxième tableau \verb@Na@ contenant la quantité de coups jouées dans chaque levier, et qui renvoie un coup à jouer à la prochaine étape. Les $T$ coups d'une partie sont simulés par la fonction \verb@run@, qui prend en argument la machine, la stratégie et $T$ et qui utilise les fonctions précédentes pour simuler les $T$ coups, renvoyant à la fin les dernières versions des tableaux \verb@mu@ et \verb@Na@ et un tableau de taille $T$ avec le gain cumulé à chaque $t \in \{0, \dotsc, T-1\}$. La fonction \verb@run@ utilise la fonction auxiliaire \verb@mise_a_jour@ qui met à jour les tableaux \verb@mu@ et \verb@Na@ en fonction du levier choisi et du résultat obtenu.
+
+\subsection{Stratégies}
+
+Dans ce projet, quatre stratégies ont été implémentées.
+
+\begin{itemize}[label=\textbullet, leftmargin=*]
+\item \textbf{Algorithme aléatoire.} Dans cet algorithme, le levier à jouer dans le coup suivant est choisi de façon aléatoire uniforme parmi les $N$ leviers disponibles. Il s'agit d'un algorithme qui fait uniquement une exploration des $N$ leviers sans utiliser aucune information obtenue pour exploiter le meilleur levier observé.
+
+\item \textbf{Algorithme glouton.} L'idée de cet algorithme est de décomposer le jeu en deux phases bien distinctes, l'une avec uniquement de l'exploration et l'autre avec uniquement de l'exploitation. Dans la première, les $N$ leviers sont joués chacun la même quantité de fois, passée en argument à la stratégie, afin d'estimer les paramètres $\mu^i$ de chaque levier par la proportion de gains obtenue expérimentalement sur ce levier stockée dans le tableau \verb@mu@. Remarquons que cette estimée est justifiée par la loi des grands nombres, qui garantit que la proportion des gains obtenue expérimentalement avec le levier $i$ converge vers le paramètre $\mu^i$. Dans la deuxième phase, l'algorithme glouton exploite les informations obtenues en jouant toujours au levier correspondant au maximum du tableau \verb@mu@.
+
+\item \textbf{Algorithme $\varepsilon$-glouton.} L'inconvénient de l'algorithme glouton est que le tableau \verb@mu@ contient uniquement des estimées de $\mu^i$, et pas leurs vraies valeurs, qui sont inaccessibles. Ainsi, si ces estimées sont mauvaises, ce qui peut arriver de façon aléatoire, on risque de passer toute la phase d'exploration en jouant un levier qui n'est pas l'optimal. Pour y remédier, l'algorithme $\varepsilon$-glouton modifie l'algorithme glouton en introduisant un paramètre $\varepsilon$ petit. À chaque coup, on a une probabilité $\varepsilon$ de choisir un levier au hasard, de façon uniforme parmi les $N$ leviers, et, avec une probabilité $1 - \varepsilon$, on joue comme dans l'algorithme glouton. Cela garantit que, même après la fin de la première phase de l'algorithme glouton, on continue à avoir un peu d'exploration pour essayer d'améliorer les estimées de \verb@mu@ et ainsi éviter de rester bloqué sur une action sous-optimale.
+
+\item \textbf{Algorithme UCB.} L'algorithme $\varepsilon$-glouton permet de garder un peu d'exploration pendant la phase d'exploitation, mais cette exploration est faite de façon purement aléatoire. L'algorithme UCB cherche à faire une exploration de façon plus intelligente avec les informations disponibles. L'idée de cet algorithme est de choisir la prochaine action $a_t$ par la formule
+\[a_t = \argmax_{i \in \{0, \dotsc, N-1\}} \left(\hat\mu_t^i + \sqrt{\frac{2 \log(t)}{N_i(t)}}\right),\]
+où $\hat\mu_t^i$ est l'estimée de $\mu^i$ disponible à l'instant $t$ et $N_i(t)$ est la quantité de fois que le levier $i$ a été actionné jusqu'à l'instant $t$. Le terme $\sqrt{\frac{2 \log(t)}{N_i(t)}}$ est celui responsable pour l'exploration ; sans ce terme, cette formule est exactement celle utilisée dans la phase d'exploitation de l'algorithme glouton. La division par $N_i(t)$ indique que, plus on a joué sur le levier $i$, plus notre estimée $\hat\mu_t^i$ est proche de $\mu^i$. Le terme en $\log(t)$ garantit qu'on ne néglige pas complètement un levier : même si son estimée de $\hat\mu_t^i$ est trop petit, s'il a été trop peu joué, le terme $\sqrt{\frac{2 \log(t)}{N_i(t)}}$ augmente au cours du temps et il sera éventuellement rejoué, afin d'améliorer encore l'estimée de $\hat\mu_t^i$. Comme la croissance de $\log(t)$ est assez lente, ces explorations de leviers avec une estimée petite n'arrivent pas très souvent pour ne pas trop nuire à l'exploration. Remarquons aussi que, comme il y a une division par $N_i(t)$, il est nécessaire de joueur chaque levier au moins une fois avant de pouvoir appliquer cet algorithme, ce qui impose une phase d'exploration pendant au moins les $N$ premiers coups.
+\end{itemize}
+
+Ces quatre stratégies ont été implémentées comme quatre fonctions, \verb@algo_alea@, \verb@algo_glouton@, \verb@algo_glouton_e@ et \verb@algo_UCB@, prenant toutes en argument les tableaux \verb@mu@ et \verb@Na@ comme décrit dans la Section \ref{SecImplementation}. L'algorithme glouton prend aussi en argument facultatif la quantité de fois que chaque levier est joué pendant la phase d'exploitation et l'algorithme $\varepsilon$-glouton prend en argument facultatif la valeur de $\varepsilon$.
+
+\subsection{Résultats}
+
+
 
 \section{Morpion}
 \label{SecMorpion}

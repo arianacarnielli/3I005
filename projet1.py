@@ -145,7 +145,33 @@ def moyenne_run(machine, algo, T, n = 100):
         mu, Na, res = run(machine, algo, T)
         mu_moyen = mu_moyen + mu
         res_temps_moyen = res_temps_moyen + res
-    return mu_moyen/n, Na, res_temps_moyen/n  
+    return mu_moyen/n, Na, res_temps_moyen/n
+
+def stat_run(machine, algo, T, n = 10000):
+    """
+    Appele la fonction run n fois appliqué sur les autres arguments.
+    Renvoie un tableau stat_res de taille n avec le gain obtenu à la fin du
+    temps T dans chaque exécution de run.
+    """
+    stat_res = np.empty(n)
+    for i in range(n):
+        _, _, res = run(machine, algo, T)
+        stat_res[i] = res[-1]
+    return stat_res
+    
+def hist_regret_T(stat_regret, algo_name):
+    """
+    Cree un histogramme des regrets à l'instant final.
+    Les valeurs des regrets doivent etre calcules auparavant.
+    """
+    fig, ax = plt.subplots()
+    ax.grid(True)
+    ax.set_xlabel("Regret")
+    ax.set_ylabel("Fréquence")
+    ax.set_title("Histogramme des regrets pour l'algorithme "+algo_name)
+    ax.set_axisbelow(True)
+    ax.hist(stat_regret, bins=np.arange(stat_regret.min()-0.5, stat_regret.max()+0.6, 1.0), \
+            density = True, edgecolor="black") 
 
 def graphe_regret_temps(opt, rgt, res):
     """
@@ -178,7 +204,7 @@ def graphe_regrets(rgt_alea, rgt_glou, rgt_glou_e, rgt_ucb):
     ax.plot(T, rgt_glou_e, label = 'e-glouton')
     ax.plot(T, rgt_ucb, label = 'UCB')
     ax.legend(loc = "upper left")
-    plt.title("regrets des 4 algorithmes par rapport à T")
+    plt.title("Regrets des 4 algorithmes par rapport à T")
     
 def graphe_gains(res_alea, res_glou, res_glou_e, res_ucb):
     """
@@ -189,7 +215,7 @@ def graphe_gains(res_alea, res_glou, res_glou_e, res_ucb):
     fig, ax = plt.subplots()
     ax.grid(True)
     plt.xlabel("T")
-    plt.ylabel("Gains")
+    plt.ylabel("Gain")
    
     ax.plot(T, res_alea, label = 'aléatoire') 
     ax.plot(T, res_glou, label = 'glouton')
@@ -232,6 +258,17 @@ if __name__ == "__main__":
     opt = gain_opt(machine, T)
     print("gain optimal = ", opt)
     print("\n")
+    
+    stat_res_alea = stat_run(machine, algo_alea, T)
+    stat_res_glou = stat_run(machine, algo_glouton, T)
+    stat_res_glou_e = stat_run(machine, algo_glouton_e, T)
+    stat_res_ucb = stat_run(machine, algo_UCB, T)
+    
+    stat_rgt_alea = opt_total - stat_res_alea
+    stat_rgt_glou = opt_total - stat_res_glou
+    stat_rgt_glou_e = opt_total - stat_res_glou_e
+    stat_rgt_ucb = opt_total - stat_res_ucb
+    
     #rgt = regret(machine, T, res)
     #print("regret = ", rgt)
     #print("\n")
@@ -240,3 +277,8 @@ if __name__ == "__main__":
     graphe_regret_temps(opt, rgt_glou, res_glou)
     graphe_regrets(rgt_alea, rgt_glou, rgt_glou_e, rgt_ucb)
     graphe_gains(res_alea, res_glou, res_glou_e, res_ucb)
+    
+    hist_regret_T(stat_rgt_alea, "aléatoire")
+    hist_regret_T(stat_rgt_glou, "glouton")
+    hist_regret_T(stat_rgt_glou_e, r"$\varepsilon$-glouton")
+    hist_regret_T(stat_rgt_ucb, "UCB")

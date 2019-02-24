@@ -1,6 +1,8 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Bandits-manchots}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Description}{section.2}% 3
-\BOOKMARK [1][-]{section.3}{Morpion}{}% 4
-\BOOKMARK [1][-]{section.4}{Puissance 4}{}% 5
-\BOOKMARK [1][-]{section.5}{Conclusion}{}% 6
+\BOOKMARK [2][-]{subsection.2.2}{Impl\351mentation du jeu}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Strat\351gies}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Morpion}{}% 6
+\BOOKMARK [1][-]{section.4}{Puissance 4}{}% 7
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 8
