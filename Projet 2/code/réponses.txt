@@ -1,0 +1,58 @@
+Question 3.d
+
+Le APrioriClassifier utilise très peu d'informations sur le dataframe, ne prenant que la classe majoritaire. Il a un rappel de 100%, indiquant qu'il n'a jamais de faux négatifs, tous les éléments pertinents sont bien classifiés. Par contre, il y a une quantité importante de faux positifs et sa précision est très mauvaise.
+
+Les deux autres classifieurs utilisent plus d'informations, mais se limitent à une seule colonne. Ils ont des niveaux de rappel inféreurs à celui du APrioriClassifier mais encore assez élévés et leurs précisions sont aussi élévées. Le ML2DClassifier a une précision legèrement meilleure pour la colonne utilisée en example que MAP2DClassifier, mais son rappel est legèrement inférieur. Les valeurs de précision et rappel de ces deux classifieurs sont entre 80% et 90%, ce qui n'est pas très satisfaisant, surtout en vue du dataset en question de maladies cardiaques, car un rappel d'environ 80% indique qu'environ 20% des patients ayant une maladie au coeur seront classifiés comme sains.
+
+Question 4.3
+
+On sait, d'après l'énoncé :
+
+$$
+P(A,C|B) = P(A|B) * P(C|B)
+$$
+
+Alors :
+$$
+\begin{aligned}
+P(A,B,C) &= P(A,C,B)\\
+&= P(A,C|B) * P(B)\\
+&= P(A|B) * P(C|B) * P(B)\\
+&= \frac{P(B|A) * P(A)}{P(B)} * P(C|B) * P(B)\\
+&= P(A) * P(B|A) * P(C|B)
+\end{aligned}
+$$
+
+Sans l'indépendance conditionnelle (en considérant qu'elles sont toutes dépendantes) : 
+
+On stocke les valeurs de $P(A,B,C)$ dans un seul tableau 3D, de taille $5 * 5 * 5 * 8 = 1000$ octets
+
+Avec l'indépendance conditionnelle :
+
+On stocke les valeurs de $P(A)$, $P(B|A)$ et $P(C|B)$ en trois tableaux (un 1D, deux 2D), de taille totale $5 * 8 + 5 * 5 * 8 + 5 * 5 * 8 = 440$ octets
+
+Question 5.1
+
+utils.drawGraphHorizontal("A;B;C;D;E")
+
+#Creer une nouvele célulle markdown pour écrire cette partie#
+Dans le cas sans indépendance on construit le graphe à partir de la formule :
+
+$$
+P(A,B,C,D,E) = P(A|B,C,D,E) * P(B|C,D,E) * P(C|D,E) * P(D|E) * P(E)
+$$
+
+#jusqu'à ici#
+
+utils.drawGraphHorizontal("E;E->D;E->C;D->C;E->B;D->B;C->B;E->A;D->A;C->A;B->A")
+
+Question 5.2
+
+$$P(attr1,attr2,attr3,\cdots|target)=P(attr1|target) * P(attr2|target) * P(attr3|target) * \dotsm * P(attrN|target)$$
+
+$$
+\begin{aligned}
+P(target|attr1,attr2,attr3,\cdots) &= \frac{P(attr1, attr2, attr3, \dotsc, attrN|target) * P(target)}{P(attr1, attr2, attr3, \dotsc, attrN)}\\
+&= \frac{P(attr1|target) * P(attr2|target) * P(attr3|target) * \dotsm * P(attrN|target) * P(target)}{P(attr1, attr2, attr3, \dotsc, attrN)}
+\end{aligned}$$
+
