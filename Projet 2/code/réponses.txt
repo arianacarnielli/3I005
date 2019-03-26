@@ -56,3 +56,9 @@ P(target|attr1,attr2,attr3,\cdots) &= \frac{P(attr1, attr2, attr3, \dotsc, attrN
 &= \frac{P(attr1|target) * P(attr2|target) * P(attr3|target) * \dotsm * P(attrN|target) * P(target)}{P(attr1, attr2, attr3, \dotsc, attrN)}
 \end{aligned}$$
 
+Pour la classification, on aura des valeurs données pour les attributs et on changera uniquement la valeur de `target` (entre 0 et 1) pour déterminer la classification. Alors, lors de la classification d’un individu le terme $P(attr1, attr2, attr3, \dotsc, attrN)$ reste constant et donc il n’est pas nécessaire de le calculer pour déterminer la classe. On utilise donc que la probabilité $P(target|attr1,attr2,attr3,\cdots)$ est proportionnelle à
+$$P(attr1|target) * P(attr2|target) * P(attr3|target) * \dotsm * P(attrN|target) * P(target)$$
+
+Question 7.1
+
+Le point idéal est le point en haut à droite, (1, 1), correspondant à précision et rappel égaux à 100 %. On peut donc comparer les différents classifieurs en regardant leur proximité avec (1, 1), en cherchant par exemple celui qui a la plus grande distance de (0, 0) ou celui avec la plus petite distance de (1, 1). Plusieurs distances différentes peuvent être utilisées, comme l’euclidienne ou la distance de Manhattan, éventuellement avec des poids pour donner une importance plus grande à l’un des indicateurs par rapport à l’autre selon que l’on veut minimiser le taux de faux négatifs (en augmentant le rappel) ou le taux de faux positifs (en augmentant la précision).
