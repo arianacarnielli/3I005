@@ -123,8 +123,10 @@ def P2D_l(df, attr):
     # Les valeurs possibles pour target sont toujours 0 ou 1.
     dico[0] = dict.fromkeys(list_cle, 0)
     dico[1] = dict.fromkeys(list_cle, 0)
-    for i, row in df.iterrows():
-        dico[row["target"]][row[attr]]+=1
+    
+    group = df.groupby(["target", attr]).groups
+    for t, val in group:
+        dico[t][val] = len(group[(t, val)])
     
     taille0 = (df["target"] == 0).sum()
     taille1 = (df["target"] == 1).sum()
@@ -149,8 +151,11 @@ def P2D_p(df, attr):
     for cle in dico:
         dico[cle] = dict.fromkeys([0,1], 0) # Les valeurs possibles pour target sont toujours 0 ou 1.
     
-    for i, row in df.iterrows():        
-        dico[row[attr]][row["target"]]+=1
+    group = df.groupby(["target", attr]).groups
+    for t, val in group:
+        dico[val][t] = len(group[(t, val)])
+    #for i, row in df.iterrows():        
+    #    dico[row[attr]][row["target"]]+=1
         
     for cle in dico:
         taille = (df[attr] == cle).sum()
@@ -393,22 +398,21 @@ class MLNaiveBayesClassifier(APrioriClassifier):
         Calcule la vraisemblance par naïve Bayes : P(attr1, ..., attrk | target).
         
         :param attrs: le dictionnaire nom-valeur des attributs
-        """
+        """    
         P_0 = 1
         P_1 = 1
-        for attr_key in attrs:
-            if attr_key != "target":
-                dico_p = self.dico_P2D_l[attr_key]
-                if attrs[attr_key] in dico_p[0]:
-                    P_0 *= dico_p[0][attrs[attr_key]]
-                    P_1 *= dico_p[1][attrs[attr_key]]
-                else:
-                    #si la valeur de l'attribut n'existe pas dans l'enseble d'apprentissage,
-                    #alors sa probabilité conditionnelle vaut zero et on peut
-                    #faire une sortie anticipée
-                    return {0: 0.0, 1: 0.0}
+        for key in self.dico_P2D_l:
+            dico_p = self.dico_P2D_l[key]
+            if attrs[key] in dico_p[0]:
+                P_0 *= dico_p[0][attrs[key]]
+                P_1 *= dico_p[1][attrs[key]]
+            else:
+                #si la valeur de l'attribut n'existe pas dans l'enseble d'apprentissage,
+                #alors sa probabilité conditionnelle vaut zero et on peut
+                #faire une sortie anticipée
+                return {0: 0.0, 1: 0.0}
         return {0: P_0, 1: P_1}
-
+    
 class MAPNaiveBayesClassifier(APrioriClassifier):
     """
     Classifieur par le maximum a posteriori en utilisant le modèle naïve Bayes. 
@@ -449,23 +453,22 @@ class MAPNaiveBayesClassifier(APrioriClassifier):
         Calcule la probabilité à posteriori par naïve Bayes : P(target | attr1, ..., attrk).
         
         :param attrs: le dictionnaire nom-valeur des attributs
-        """
+        """    
         P_0 = self.pTarget[0]
         P_1 = self.pTarget[1]
-        for attr_key in attrs:
-            if attr_key != "target":
-                dico_p = self.dico_P2D_l[attr_key]
-                if attrs[attr_key] in dico_p[0]:
-                    P_0 *= dico_p[0][attrs[attr_key]]
-                    P_1 *= dico_p[1][attrs[attr_key]]
-                else:
-                    #si la valeur de l'attribut n'existe pas dans l'enseble d'apprentissage,
-                    #alors sa probabilité conditionnelle n'est pas definie et on peut
-                    #faire une sortie anticipée
-                    return {0: 0.0, 1: 0.0}
+        for key in self.dico_P2D_l:
+            dico_p = self.dico_P2D_l[key]
+            if attrs[key] in dico_p[0]:
+                P_0 *= dico_p[0][attrs[key]]
+                P_1 *= dico_p[1][attrs[key]]
+            else:
+                #si la valeur de l'attribut n'existe pas dans l'enseble d'apprentissage,
+                #alors sa probabilité conditionnelle n'est pas definie et on peut
+                #faire une sortie anticipée
+                return {0: 0.0, 1: 0.0}
         P_0res = P_0 / (P_0 + P_1)
         P_1res = P_1 / (P_0 + P_1)
-        return {0: P_0res, 1: P_1res}
+        return {0: P_0res, 1: P_1res}    
 
 #==============================================================================
 # Question 6
@@ -660,8 +663,16 @@ def mapClassifiers(dic, df):
 #==============================================================================
 # Question 8
 #==============================================================================
+#------------------------------------------------------------------------------
+# Question 8.1
+#------------------------------------------------------------------------------   
 def MutualInformation(df, x, y):
     """
+    Calcule l'information mutuelle entre les colonnes x et y du dataframe.
+    
+    :param df: Dataframe contenant les données. 
+    :param x: nom d'une colonne du dataframe.
+    :param y: nom d'une colonne du dataframe.
     """
     list_x = np.unique(df[x].values) # Valeurs possibles de x.
     list_y = np.unique(df[y].values) # Valeurs possibles de y.
@@ -675,10 +686,15 @@ def MutualInformation(df, x, y):
     mat_xy = np.zeros((list_x.size, list_y.size), dtype = int)
     #matrice des valeurs P(x,y)
     
-    for _, row in df.iterrows():
-        i = row[x]
-        j = row[y]
-        mat_xy[dico_x[i], dico_y[j]]+= 1 
+    group = df.groupby([x, y]).groups
+    
+    for i, j in group:
+        mat_xy[dico_x[i], dico_y[j]] = len(group[(i, j)]) 
+    
+#    for _, row in df.iterrows():
+#        i = row[x]
+#        j = row[y]
+#        mat_xy[dico_x[i], dico_y[j]]+= 1 
     
     mat_xy = mat_xy / mat_xy.sum()
     
@@ -696,9 +712,342 @@ def MutualInformation(df, x, y):
     mat_res *= mat_xy
     
     return mat_res.sum()
+
+def ConditionalMutualInformation(df,x,y,z):
+    """
+    Calcule l'information mutuelle conditionnelle entre les colonnes x et y du 
+    dataframe en considerant les deux comme dependantes de la colonne z.
     
+    :param df: Dataframe contenant les données. 
+    :param x: nom d'une colonne du dataframe.
+    :param y: nom d'une colonne du dataframe.
+    :param z: nom d'une colonne du dataframe.
+    """
+    list_x = np.unique(df[x].values) # Valeurs possibles de x.
+    list_y = np.unique(df[y].values) # Valeurs possibles de y.
+    list_z = np.unique(df[z].values) # Valeurs possibles de z.
     
+    dico_x = {list_x[i]: i for i in range(list_x.size)} 
+    #un dictionnaire associant chaque valeur a leur indice en list_x.
     
+    dico_y = {list_y[i]: i for i in range(list_y.size)} 
+    #un dictionnaire associant chaque valeur a leur indice en list_y.
     
+    dico_z = {list_z[i]: i for i in range(list_z.size)} 
+    #un dictionnaire associant chaque valeur a leur indice en list_z.
     
+    mat_xyz = np.zeros((list_x.size, list_y.size, list_z.size), dtype = int)
+    #matrice des valeurs P(x,y,z)
     
+    group = df.groupby([x, y, z]).groups
+    
+    for i, j, k in group:
+        mat_xyz[dico_x[i], dico_y[j], dico_z[k]] = len(group[(i, j, k)]) 
+    
+#    for _, row in df.iterrows():
+#        i = row[x]
+#        j = row[y]
+#        mat_xy[dico_x[i], dico_y[j]]+= 1 
+    
+    mat_xyz = mat_xyz / mat_xyz.sum()
+    
+    mat_xz = mat_xyz.sum(1)
+    #matrice des P(x, z)
+    
+    mat_yz = mat_xyz.sum(0)
+    #matrice des P(y, z)
+    
+    mat_z = mat_xz.sum(0)
+    #matrice des P(z)
+    
+    mat_pxz_pyz = mat_xz.reshape((list_x.size, 1, list_z.size)) * mat_yz.reshape((1, list_y.size, list_z.size)) 
+    #matrice des P(x, z)P(y, z)
+    
+    mat_pxz_pyz[mat_pxz_pyz == 0] = 1
+    # Certains éléments de max_pxz_pyz peuvent être zéro, ce qui pose un problème
+    # pour la division. On les change à 1 pour éviter ce problème. On remarque
+    # que, si une case de cette matrice vaut 0, alors la case correspondante de
+    # la matrice mat_xyz vaut aussi 0. En effet, si une case vaut 0, alors
+    # P(x, z) = 0 ou P(y, z) = 0. Si on est dans le premier cas, comme
+    # P(x, z) est la somme de P(x, y, z) sur y et que P(x, y, z) est toujours
+    # >= 0, alors forcément P(x, y, z) = 0 pour tout y, et donc les cases
+    # correspondantes dans mat_xyz valent 0. Similairement si c'est P(y, z) qui
+    # vaut 0.
+    
+    mat_pz_pxyz = mat_z.reshape((1, 1, list_z.size)) * mat_xyz
+    #matrice des P(z)P(x, y, z)
+    
+    mat_res = mat_pz_pxyz / mat_pxz_pyz
+    mat_res[mat_res == 0] = 1
+    #pour éviter des problèmes avec le log de zero
+    mat_res = np.log2(mat_res)
+    mat_res *= mat_xyz
+    
+    return mat_res.sum()
+    
+#------------------------------------------------------------------------------
+# Question 8.2
+#------------------------------------------------------------------------------       
+def MeanForSymetricWeights(a):   
+    """
+    Calcule la moyenne des poids pour une matrice a symétrique de diagonale nulle.
+    La diagonale n'est pas prise en compte pour le calcul de la moyenne.
+    
+    :param a: Matrice symétrique de diagonale nulle.  
+    """
+    return a.sum()/(a.size - a.shape[0])
+
+def SimplifyConditionalMutualInformationMatrix(a):
+    """
+    Annule toutes les valeurs plus petites que sa moyenne dans une matrice a 
+    symétrique de diagonale nulle.
+    
+    :param a: Matrice symétrique de diagonale nulle.      
+    """
+    moy = MeanForSymetricWeights(a)
+    a[a < moy] = 0
+    
+#------------------------------------------------------------------------------
+# Question 8.3
+#------------------------------------------------------------------------------   
+def Kruskal(df,a):
+    """
+    Applique l'algorithme de Kruskal au graphe dont les sommets sont les colonnes
+    de df (sauf 'target') et dont la matrice d'adjacence ponderée est a.
+    Les indices dans a doivent être dans le même ordre que ceux de df.keys().
+    
+    :param df: Dataframe contenant les données. 
+    :param a: Matrice symétrique de diagonale nulle.    
+    """
+    list_col = [x for x in df.keys() if x != "target"]
+    list_arr = [(list_col[i], list_col[j], a[i, j]) for i in range(a.shape[0]) for j in range(i + 1, a.shape[0]) if a[i, j] != 0]
+    
+    list_arr.sort(key = lambda x: x[2], reverse = True)
+    
+    g = Graphe(list_col)
+    
+    for (u, v, poids) in list_arr:
+        if g.find(u) != g.find(v):
+            g.addArete(u, v, poids)
+            g.union(u, v)
+    return g.graphe    
+
+class Graphe:
+    """
+    Structure de graphe pour l'algorithme de Kruskal. 
+    """
+  
+    def __init__(self, sommets): 
+        """
+        :param sommets: liste de sommets
+        """
+        self.S = sommets 
+        #Liste de sommets 
+        self.graphe = [] 
+        #liste representant les aretes du graphe 
+        self.parent = {s : s for s in self.S}
+        #dictionnaire ou la clé est un sommet et la valeur est sont père
+        #dans la forêt utilisée par l'algorithme de kruskal.
+        self.taille = {s : 1 for s in self.S}
+        #dictionnaire des tailles des arbres dans la forêt
+        
+
+    def addArete(self, u, v, poids): 
+        """
+        Ajoute l'arete (u, v) avec poids.
+        
+        :param u: le nom d'un sommet.
+        :param v: le nom d'un sommet.
+        :param poids: poids de l'arete entre les deux sommets.
+        """
+        self.graphe.append((u,v,poids)) 
+  
+    def find(self, u): 
+        """
+        Trouve la racine du sommet u dans la forêt utilisée par l'algorithme de
+        kruskal. Avec compression de chemin.
+
+        :param u: le nom d'un sommet.
+        """
+        racine = u
+        #recherche de la racine
+        while racine != self.parent[racine]:
+            racine = self.parent[u]
+        #compression du chemin    
+        while u != racine:
+            v = self.parent[u]
+            self.parent[u] = racine
+            u = v
+        return racine            
+  
+
+    def union(self, u, v):
+        """
+        Union ponderé des deux arbres contenant u et v. Doivent être dans deux
+        arbres differents.
+        
+        :param u: le nom d'un sommet.
+        :param v: le nom d'un sommet.
+        """
+        u_racine = self.find(u) 
+        v_racine = self.find(v) 
+  
+        if self.taille[u_racine] < self.taille[v_racine]: 
+            self.parent[u_racine] = v_racine 
+            self.taille[v_racine] += self.taille[u_racine] 
+        else: 
+            self.parent[v_racine] = u_racine 
+            self.taille[u_racine] += self.taille[v_racine] 
+ 
+#------------------------------------------------------------------------------
+# Question 8.4
+#------------------------------------------------------------------------------
+def ConnexSets(list_arcs):
+    """
+    Costruit une liste des composantes connexes du graphe dont la liste d'aretes
+    est list_arcs.
+    
+    :param list_arcs: liste de triplets de la forme (sommet1, sommet2, poids).
+    """
+    res = []
+    for (u, v, _) in list_arcs:
+        u_set = None
+        v_set = None
+        for s in res:
+            if u in s:
+                u_set = s
+            if v in s:
+                v_set = s
+        if u_set is None and v_set is None:
+            res.append({u, v})
+        elif u_set is None:
+            v_set.add(u)
+        elif v_set is None:
+            u_set.add(v)
+        elif u_set != v_set:
+            res.remove(u_set)
+            v_set = v_set.union(u_set)
+    return res
+
+def OrientConnexSets(df, arcs, classe):
+    """
+    Utilise l'information mutuelle (entre chaque attribut et la classe) pour
+    proposer pour chaque ensemble d'attributs connexes une racine et qui rend 
+    la liste des arcs orientés.
+    
+    :param df: Dataframe contenant les données. 
+    :param arcs: liste d'ensembles d'arcs connexes.
+    :param classe: colonne de réference dans le dataframe pour le calcul de 
+    l'information mutuelle.
+    """
+    arcs_copy = arcs.copy()
+    list_sets = ConnexSets(arcs_copy)
+    list_arbre = []
+    for s in list_sets:
+        col_max = ""
+        i_max = -float("inf") 
+        for col in s:
+            i = MutualInformation(df, col, classe)
+            if i > i_max:
+                i_max = i
+                col_max = col
+        list_arbre += creeArbre(arcs_copy, col_max)
+    return list_arbre
+    
+def creeArbre(arcs, racine): 
+    """
+    À partir d'une liste d'arcs et d'une racine, renvoie l'arbre orienté depuis
+    cette racine. La liste arcs est modifié par cette fonction.
+    
+    :param arcs: liste d'ensembles d'arcs connexes.
+    :param racine: nom d'un sommet.
+    """
+    res = []
+    file = [racine]
+    while file != []:
+        sommet = file.pop(0)
+        arcs_copy = arcs.copy()
+        for (u, v, poids) in arcs_copy:
+            if sommet == u:
+                res.append((u, v))
+                arcs.remove((u, v, poids))
+                file.append(v)
+            elif sommet == v:
+                res.append((v, u))
+                arcs.remove((u, v, poids))
+                file.append(u)
+    return res 
+    
+#------------------------------------------------------------------------------
+# Question 8.5
+#------------------------------------------------------------------------------
+class MAPTANClassifier(APrioriClassifier):
+    """
+    Classifieur par le maximum a posteriori en utilisant le modèle naïve Bayes réduit. 
+    """
+    def __init__(self, df, x):
+        """
+        Initialise le classifieur. Crée un dictionnarie où la clé est le nom de
+        chaque attribut et la valeur est un dictionnaire de dictionnaires contenant
+        les probabilités conditionnelles P(attribut | target) où attribut et target
+        ne sont pas indépendants. Cree aussi un dictionnaire avec les probabilités
+        de target = 0 et target = 1.
+        
+        :param df: dataframe. Doit contenir une colonne appelée "target" ne contenant que 0 ou 1.
+        :param x: seuil de confiance pour le test de indépendance.
+        """
+        self.pTarget = {1: df["target"].mean()}
+        self.pTarget[0] = 1 - self.pTarget[1] 
+        self.dico_P2D_l = {}
+        tab_col = list(df.columns.values)
+        tab_col.remove("target")
+        for attr in tab_col:
+            if not isIndepFromTarget(df,attr,x):
+                self.dico_P2D_l[attr] = P2D_l(df, attr)
+    
+    def estimClass(self, attrs):
+        """
+        À partir d'un dictionanire d'attributs, estime la classe 0 ou 1.        
+        L'estimée est faite par maximum à posteriori à partir de dico_res.
+        
+        :param attrs: le dictionnaire nom-valeur des attributs
+        :return: la classe 0 ou 1 estimée
+        """
+        dico_res = self.estimProbas(attrs)
+        if dico_res[0] >= dico_res[1]:
+            return 0
+        return 1
+        
+
+    def estimProbas(self, attrs):
+        """
+        Calcule la probabilité à posteriori par naïve Bayes réduit: 
+        P(target | attr1, ..., attrk).
+        
+        :param attrs: le dictionnaire nom-valeur des attributs
+        """
+        P_0 = self.pTarget[0]
+        P_1 = self.pTarget[1]
+        for key in self.dico_P2D_l:
+            dico_p = self.dico_P2D_l[key]
+            if attrs[key] in dico_p[0]:
+                P_0 *= dico_p[0][attrs[key]]
+                P_1 *= dico_p[1][attrs[key]]
+            else:
+                #si la valeur de l'attribut n'existe pas dans l'enseble d'apprentissage,
+                #alors sa probabilité conditionnelle n'est pas definie et on peut
+                #faire une sortie anticipée
+                return {0: 0.0, 1: 0.0}
+        P_0res = P_0 / (P_0 + P_1)
+        P_1res = P_1 / (P_0 + P_1)
+        return {0: P_0res, 1: P_1res}
+    
+    def draw(self):
+        """
+        Construit un graphe orienté représentant le modèle TAN.
+        """
+        tab_col = list(self.dico_P2D_l)
+        res = ""
+        for enfant in tab_col:
+            res = res + "target" + "->" + enfant + ";"
+        return utils.drawGraph(res[:-1])   
