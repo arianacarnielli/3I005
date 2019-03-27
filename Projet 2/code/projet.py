@@ -552,11 +552,10 @@ class ReducedMLNaiveBayesClassifier(APrioriClassifier):
         """
         Construit un graphe orienté représentant naïve Bayes réduit.
         """
-        tab_col = list(self.dico_P2D_l)
         res = ""
-        for enfant in tab_col:
+        for enfant in self.dico_P2D_l:
             res = res + "target" + "->" + enfant + ";"
-        return utils.drawGraph(res[:-1])   
+        return utils.drawGraph(res[:-1])
 
 class ReducedMAPNaiveBayesClassifier(APrioriClassifier):
     """
@@ -623,11 +622,10 @@ class ReducedMAPNaiveBayesClassifier(APrioriClassifier):
         """
         Construit un graphe orienté représentant naïve Bayes réduit.
         """
-        tab_col = list(self.dico_P2D_l)
         res = ""
-        for enfant in tab_col:
+        for enfant in self.dico_P2D_l:
             res = res + "target" + "->" + enfant + ";"
-        return utils.drawGraph(res[:-1])   
+        return utils.drawGraph(res[:-1])
 
 #==============================================================================
 # Question 7
@@ -983,26 +981,31 @@ def creeArbre(arcs, racine):
 #------------------------------------------------------------------------------
 class MAPTANClassifier(APrioriClassifier):
     """
-    Classifieur par le maximum a posteriori en utilisant le modèle naïve Bayes réduit. 
+   
     """
-    def __init__(self, df, x):
+    def __init__(self, df):
         """
-        Initialise le classifieur. Crée un dictionnarie où la clé est le nom de
-        chaque attribut et la valeur est un dictionnaire de dictionnaires contenant
-        les probabilités conditionnelles P(attribut | target) où attribut et target
-        ne sont pas indépendants. Cree aussi un dictionnaire avec les probabilités
-        de target = 0 et target = 1.
+       
         
         :param df: dataframe. Doit contenir une colonne appelée "target" ne contenant que 0 ou 1.
-        :param x: seuil de confiance pour le test de indépendance.
         """
+        self.createCmis(df)
+        arcs = Kruskal(df, self.cmis)
+        self.liste_arcs = OrientConnexSets(df, arcs, "target")
+        
+        self.dico_P2D_l = {}
+        self.dico_P3D_l = {}
         self.pTarget = {1: df["target"].mean()}
         self.pTarget[0] = 1 - self.pTarget[1] 
-        self.dico_P2D_l = {}
+        
         tab_col = list(df.columns.values)
         tab_col.remove("target")
+
         for attr in tab_col:
-            if not isIndepFromTarget(df,attr,x):
+            pere = self.is3D(attr)
+            if pere is not False:
+                self.dico_P3D_l[attr] = P3D_l(df, attr, pere)
+            else:
                 self.dico_P2D_l[attr] = P2D_l(df, attr)
     
     def estimClass(self, attrs):
@@ -1021,9 +1024,7 @@ class MAPTANClassifier(APrioriClassifier):
 
     def estimProbas(self, attrs):
         """
-        Calcule la probabilité à posteriori par naïve Bayes réduit: 
-        P(target | attr1, ..., attrk).
-        
+             
         :param attrs: le dictionnaire nom-valeur des attributs
         """
         P_0 = self.pTarget[0]
@@ -1038,6 +1039,15 @@ class MAPTANClassifier(APrioriClassifier):
                 #alors sa probabilité conditionnelle n'est pas definie et on peut
                 #faire une sortie anticipée
                 return {0: 0.0, 1: 0.0}
+        
+        for key in self.dico_P3D_l:
+            proba = self.dico_P3D_l[key]
+            P_0 *= proba.getProba(attrs[key], attrs[proba.pere], 0)
+            P_1 *= proba.getProba(attrs[key], attrs[proba.pere], 1)
+        
+        if (P_0 + P_1) == 0 : 
+            return {0: 0.0, 1: 0.0}
+        
         P_0res = P_0 / (P_0 + P_1)
         P_1res = P_1 / (P_0 + P_1)
         return {0: P_0res, 1: P_1res}
@@ -1046,8 +1056,75 @@ class MAPTANClassifier(APrioriClassifier):
         """
         Construit un graphe orienté représentant le modèle TAN.
         """
-        tab_col = list(self.dico_P2D_l)
         res = ""
-        for enfant in tab_col:
+        for enfant in self.dico_P2D_l:
             res = res + "target" + "->" + enfant + ";"
-        return utils.drawGraph(res[:-1])   
+        for enfant in self.dico_P3D_l:
+            res = res + self.dico_P3D_l[enfant].pere + "->" + enfant + ";"
+            res = res + "target" + "->" + enfant + ";"
+        return utils.drawGraph(res[:-1])
+    
+    def createCmis(self, df):
+        """
+        """
+        self.cmis = np.array([[0 if x == y else ConditionalMutualInformation(df, x, y, "target") 
+                                 for x in df.keys() if x != "target"] for y in df.keys() if y != "target"])
+        SimplifyConditionalMutualInformationMatrix(self.cmis)
+        
+    def is3D(self, attr):  
+        """
+        """
+        for pere, fils in self.liste_arcs:
+            if fils == attr:
+                return pere
+        return False
+    
+    
+class P3D_l():
+    """
+    Classe pour le calcul des probabilités du type P(attr1 | attr2, target).
+    """
+    def __init__(self, df, attr1, attr2):
+        """
+        :param df: dataframe. Doit contenir une colonne appelée "target" ne 
+                   contenant que 0 ou 1. 
+        :param attr1: nom d'une colonne du dataframe.
+        :param attr2: nom d'une colonne du dataframe.
+        """
+        self.pere = attr2
+        list_x = np.unique(df[attr1].values) # Valeurs possibles de x.
+        list_y = np.unique(df[attr2].values) # Valeurs possibles de y.
+         
+        self.dico_x = {list_x[i]: i for i in range(list_x.size)} 
+        #un dictionnaire associant chaque valeur a leur indice en list_x.      
+        self.dico_y = {list_y[i]: i for i in range(list_y.size)} 
+        #un dictionnaire associant chaque valeur a leur indice en list_y.
+        self.mat = np.zeros((list_x.size, list_y.size, 2))
+        #la matrice des probabilités.
+        
+        group = df.groupby([attr1, attr2, 'target']).groups
+        
+        #rempli la matrice mat avec la quantité d'élements dans le dataframe
+        #ayant les valeurs (i, j, k) pours les attributs attr1, attr2 et target.
+        for i, j, k in group:
+            self.mat[self.dico_x[i], self.dico_y[j], k] = len(group[(i, j, k)]) 
+        
+        #on normalise la matrice pour avoirs les probabilités conditionnelles
+        #Pour cela, on calcule dans dans quant[j, k] la quantité d'élements dans 
+        #le dataframe ayant les valeurs (j, k) pours les attributs attr2 et target.
+        quant = self.mat.sum(0)
+        quant[quant == 0] = 1 #pour eviter des divisions par zero
+        
+        self.mat = self.mat / quant.reshape((1, list_y.size, 2))
+        
+    def getProba(self, i, j, k):
+        """
+        Renvoie la valeur de P(attr1 = i | attr2 = j, target = k).
+        
+        :param i: valeur pour l'attribut attr1 de init.
+        :param j: valeur pour l'attribut attr2 de init.
+        :param k: valeur pour target.
+        """
+        if i in self.dico_x and j in self.dico_y:
+            return self.mat[self.dico_x[i], self.dico_y[j], k]
+        return 0.
