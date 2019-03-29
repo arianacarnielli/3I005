@@ -981,11 +981,15 @@ def creeArbre(arcs, racine):
 #------------------------------------------------------------------------------
 class MAPTANClassifier(APrioriClassifier):
     """
-   
+    Classifieur par le maximum a posteriori en utilisant le modèle TAN
+    (tree-augmented naïve Bayes).
     """
     def __init__(self, df):
         """
-       
+        Initialise le classifieur. Crée la matrice de Conditional Mutual Information
+        simplifiée, une liste des arcs retenus pour le modèle TAN, un dictionnarie
+        pour les probabilités 2D et un dictionnaire pour les probabilités 3D.
+        Cree aussi un dictionnaire avec les probabilités de target = 0 et target = 1.
         
         :param df: dataframe. Doit contenir une colonne appelée "target" ne contenant que 0 ou 1.
         """
@@ -1024,6 +1028,8 @@ class MAPTANClassifier(APrioriClassifier):
 
     def estimProbas(self, attrs):
         """
+        Calcule la probabilité a posteriori P(target | attr1, ..., attrk) par
+        la méthode TAN (tree-augmented naïve Bayes).
              
         :param attrs: le dictionnaire nom-valeur des attributs
         """
@@ -1066,6 +1072,9 @@ class MAPTANClassifier(APrioriClassifier):
     
     def createCmis(self, df):
         """
+        Crée la matrice de Conditional Mutual Information simplifiée à partir du dataframe df.
+        
+        :param df: dataframe. Doit contenir une colonne appelée "target" ne contenant que 0 ou 1.
         """
         self.cmis = np.array([[0 if x == y else ConditionalMutualInformation(df, x, y, "target") 
                                  for x in df.keys() if x != "target"] for y in df.keys() if y != "target"])
@@ -1073,6 +1082,10 @@ class MAPTANClassifier(APrioriClassifier):
         
     def is3D(self, attr):  
         """
+        Détermine si l'attribut attr doit être représenté par une matrice 3D,
+        c'est-à-dire s'il a un parent outre que "target" dans self.list_arcs.
+        
+        :param attr: nom d'un attribut du dataframe.
         """
         for pere, fils in self.liste_arcs:
             if fils == attr:
