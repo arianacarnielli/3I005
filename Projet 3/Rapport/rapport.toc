@@ -1,0 +1,6 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}
+\contentsline {section}{\numberline {2}Pr\IeC {\'e}liminaires : donn\IeC {\'e}es et lecture des fichiers}{1}{section.2}
+\contentsline {section}{\numberline {3}Annotation des r\IeC {\'e}gions promoteurs}{2}{section.3}
+\contentsline {subsection}{\numberline {3.1}Description Empirique, pr\IeC {\'e}liminaires}{2}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Simulation de s\IeC {\'e}quences al\IeC {\'e}atoires}{3}{subsection.3.2}
