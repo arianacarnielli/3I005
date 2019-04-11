@@ -4,3 +4,4 @@
 \contentsline {section}{\numberline {3}Annotation des r\IeC {\'e}gions promoteurs}{2}{section.3}
 \contentsline {subsection}{\numberline {3.1}Description Empirique, pr\IeC {\'e}liminaires}{2}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Simulation de s\IeC {\'e}quences al\IeC {\'e}atoires}{3}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Mod\IeC {\`e}les de dinucl\IeC {\'e}otides et trinucl\IeC {\'e}otides}{7}{subsection.3.3}

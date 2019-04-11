@@ -222,6 +222,7 @@
 %\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor} % Arredondar para baixo
 %\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil} % Arredondar para cima
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 \DeclareMathOperator*{\argmax}{argmax}
 
 %-----------------------------------------------------------------------------------%
@@ -268,6 +269,7 @@
 Les valeurs présentées dans ce document ont été calculées à l'aide des codes en Python dans le fichier \verb@projet.py@, qui contient l'implémentation des fonctions demandées, et dans le Jupyter Notebook \verb@Projet3.ipynb@, qui contient les appels de ces fonctions et l'affichage des résultats.
 
 \section{Préliminaires : données et lecture des fichiers}
+\label{SecPreliminaires}
 
 \subsubsection*{Question 1}
 
@@ -308,6 +310,7 @@ Les fonctions \verb@logproba@ et \verb@logprobafast@ ont été codées dans \ver
 \section{Annotation des régions promoteurs}
 
 \subsection{Description Empirique, préliminaires}
+\label{SecDescriptionEmpirique}
 
 \subsubsection*{Question 1}
 
@@ -401,5 +404,102 @@ où $\hat p$ est la valeur estimée de $p$ et $t_\alpha$ est calculé à partir 
 \label{FigHistogrammeErrorBar}
 \end{figure}
 
+\subsection{Modèles de dinucléotides et trinucléotides}
+
+\subsubsection*{Question 1}
+
+Il s'agit d'une chaîne de Markov d'ordre 1 car seul le nucléotide précédent est utilisé pour déterminer la loi du prochain nucléotide de la séquence. Comme on s'attend à ce que tous les coefficients de la matrice $M$ soient strictement positifs (car il n'y a pas de paire de nucléotides qui ne peuvent pas se suivre dans une séquence), la chaîne de Markov correspondant est ergodique. Alors la probabilité stationnaire peut être estimée par la fréquence des lettres dans une séquence obtenue par l'utilisation de la chaîne de Markov. En supposant que la séquence du fichier \texttt{yeast\_\allowbreak{}s\_\allowbreak{}cerevisae\_\allowbreak{}genomic\_\allowbreak{}chr1-4\allowbreak{}.fna} provient d'une chaîne de Markov, la probabilité stationnaire peut être estimée alors par la table de nucléotides obtenue à partir de l'application de la fonction \verb@nucleotide_frequency@ aux données de ce fichier.
+
+\subsubsection*{Questions 2 et 3}
+
+Les fonctions \verb@estim_M@ et \verb@simule_Markov@ pour estimer la matrice $M$ et pour simuler une séquence produite par la chaîne de Markov correspondante ont été codées dans \verb@projet.py@ et testées dans \verb@Projet3.ipynb@. La matrice $M$ estimée à partir des données du fichier \texttt{yeast\_\allowbreak{}s\_\allowbreak{}cerevisae\_\allowbreak{}genomic\_\allowbreak{}chr1-4\allowbreak{}.fna} est
+\[
+M = 
+\begin{pmatrix}
+0.32505 & 0.18552 & 0.20059 & 0.28884 \\
+0.33571 & 0.20925 & 0.15756 & 0.29747 \\
+0.31321 & 0.20245 & 0.20774 & 0.27659 \\
+0.24149 & 0.21034 & 0.22275 & 0.32541 \\
+\end{pmatrix}.
+\]
+On observe en particulier que le modèle précédent où toutes les lettres de la séquence étaient considérées comme indépendantes n'est pas très adapté, puisque les lignes de la matrice $M$ ne sont pas toutes identiques. On vérifie aussi, conformément à la question précédente, que le vecteur
+\[
+m = 
+\begin{pmatrix}
+0.29984 & 0.20110 & 0.20000 & 0.29907
+\end{pmatrix}
+\]
+obtenu dans la Question 2 de la Partie \ref{SecPreliminaires} est bien une probabilité invariante pour $M$ car $m M = m$.
+
+\subsubsection*{Question 4}
+
+Soit le mot $w = w_0 w_1 \dotsm w_{k-1}$ de longueur $k$ et une séquence $S_0 S_1 S_2 \dotsm$ obtenue à partir d'une chaîne de Markov de matrice de transition $M$ et probabilité invariante $m$. La probabilité pour que $w$ apparaisse à l'indice $i$ de cette séquence est:
+\begin{align*}
+ & P(S_i = w_0 \cap S_{i+1} = w_1 \cap \dotsb \cap S_{i+k-1} = w_{k-1}) \\
+{} = {} & P(S_i = w_0) P(S_{i+1} = w_1 | S_i = w_0) \dotsm P(S_{i+k-1} = w_{k-1} | S_{i+k-2} = w_{k-2}) \\
+{} = {} & m(w_0) M(w_0, w_1) \dotsm M(w_{k-2}, w_{k-1}).
+\end{align*}
+Le calcul de cette probabilité a été fait dans la fonction \verb@logproba_mot_Markov@, qui renvoie le logarithme de cette probabilité car elle peut parfois être très petite.
+
+\subsubsection*{Question 5}
+
+Les mêmes arguments qu'à la Question 2 de la Partie \ref{SecDescriptionEmpirique} montrent que, en fixant un mot $w$ de longueur $k$ et une taille $\ell$ de séquence, la variable aléatoire $X$ donnant le nombre d'occurrences de ce mot dans une séquence de taille $\ell$ satisfait
+\[
+\mathbb E(X) = p (\ell - k + 1),
+\]
+la seule différence étant que désormais on a, d'après la question précédente,
+\[
+p = m(w_0) M(w_0, w_1) \dotsm M(w_{k-2}, w_{k-1}).
+\]
+On a ainsi codé une fonction \verb@comptage_attendu_Markov@ qui est très similaire à \verb@comptage_attendu@, mais remplace l'appel à \verb@logproba@ par un appel à \verb@logproba_mot_Markov@.
+
+\subsubsection*{Question 6}
+
+On a comparé les nombre d'occurrences attendus dans le modèle de nucléotides où toutes les lettres sont indépendantes et dans le modèle de dinucléotides par chaîne de Markov d'ordre 1. Les résultats obtenus pour des mots de longueur $2$ sur des séquences de taille $100$ sont présentés dans le tableau ci-dessous :
+
+\begin{center}
+\begin{tabular}{ccc}
+Mot & Nucléotide & Dinucléotide \tabularnewline
+\hline
+AA & $8,9002$ & $9,6486$ \tabularnewline
+AC & $5,9695$ & $5,5069$ \tabularnewline
+AG & $5,9367$ & $5,9543$ \tabularnewline
+AT & $8,8774$ & $8,5740$ \tabularnewline
+CA & $5,9695$ & $6,6836$ \tabularnewline
+CC & $4,0038$ & $4,1661$ \tabularnewline
+CG & $3,9818$ & $3,1369$ \tabularnewline
+CT & $5,9541$ & $5,9224$ \tabularnewline
+GA & $5,9367$ & $6,2015$ \tabularnewline
+GC & $3,9818$ & $4,0084$ \tabularnewline
+GG & $3,9599$ & $4,1133$ \tabularnewline
+GT & $5,9214$ & $5,4765$ \tabularnewline
+TA & $8,8774$ & $7,1500$ \tabularnewline
+TC & $5,9541$ & $6,2277$ \tabularnewline
+TG & $5,9214$ & $6,5952$ \tabularnewline
+TT & $8,8546$ & $9,6346$ \tabularnewline
+\end{tabular}
+\end{center}
+
+On remarque ainsi qu'il y a des différences : certains mots, comme AA, CA, GA ou TT, sont plus fréquents ; d'autres, comme AT, CG, GT ou TA, sont moins fréquents, et d'autres, comme AG, CT ou GC, ont eu leur fréquence quasiment inchangée. Les différences sont en général assez petites, car, même si la matrice $M$ n'a pas toutes ses lignes identiques, elles sont néanmoins assez similaires au vecteur $m$ contenant la probabilité invariante, ce qui indique que ce modèle de dinucléotide n'est pas très loin du modèle de nucléotide.
+
+\subsubsection*{Question 7}
+
+Pour un mot $w$ de taille $k$ qui ne se chevauche pas avec lui-même, le nombre maximal d'occurrences de ce mot dans une séquence de longueur $\ell$ vaut $\floor*{\frac{\ell}{k}}$. On divise ainsi la séquence de longueur $\ell$ en $\floor*{\frac{\ell}{k}}$ positions, chacune ayant une probabilité $p$ de contenir le mot $w$. En supposant que l'apparition de ce mot dans ces différentes positions sont indépendantes, on obtient alors que le nombre d'occurrences de ce mot suit une loi binomiale de paramètres $p$ et $\floor*{\frac{\ell}{k}}$.
+
+On a aussi recalculé les graphes représentant les nombres d'occurrences observés et attendus par le modèle de chaîne de Markov, qui sont représentés sur la Figure \ref{FigNbOccurrencesMarkov}. On observe des comportements similaires à ceux de la Figure \ref{FigNbOccurrences}.
+
+\begin{figure}
+\centering
+\begin{tabular}{@{} c @{} c @{}}
+\includegraphics[width=0.5\textwidth]{Figures/graphe_occurrences_Markov_2.png} & \includegraphics[width=0.5\textwidth]{Figures/graphe_occurrences_Markov_4.png} \tabularnewline
+(a) & (b) \tabularnewline
+\includegraphics[width=0.5\textwidth]{Figures/graphe_occurrences_Markov_6.png} & \includegraphics[width=0.5\textwidth]{Figures/graphe_occurrences_Markov_8.png} \tabularnewline
+(c) & (d) \tabularnewline
+\end{tabular}
+\caption{Nombre d'occurrences attendu dans le modèle de chaîne de Markov et observé pour (a) $k = 2$, (b) $k = 4$, (c) $k = 6$ et (d) $k = 8$.}
+\label{FigNbOccurrencesMarkov}
+\end{figure}
+
+\subsection{Probabilités de mots}
 
 \end{document}

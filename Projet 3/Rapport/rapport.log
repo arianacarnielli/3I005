@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.8)  10 APR 2019 03:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.8)  11 APR 2019 02:33
 entering extended mode
 **./rapport.tex
 (rapport.tex
@@ -1529,47 +1529,47 @@ Package: relsize 2003/07/04 ver 3.1
 ) (rapport.aux)
 \openout1 = `rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/jkp/m/it on input line 252.
-LaTeX Font Info:    Try loading font information for OML+jkp on input line 252.
+LaTeX Font Info:    Checking defaults for OML/jkp/m/it on input line 253.
+LaTeX Font Info:    Try loading font information for OML+jkp on input line 253.
  (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\omljkp.fd
 File: omljkp.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    ... okay on input line 252.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 252.
-LaTeX Font Info:    ... okay on input line 252.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 252.
-LaTeX Font Info:    ... okay on input line 252.
-LaTeX Font Info:    Checking defaults for OMS/jkp/m/n on input line 252.
-LaTeX Font Info:    Try loading font information for OMS+jkp on input line 252.
+LaTeX Font Info:    ... okay on input line 253.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 253.
+LaTeX Font Info:    ... okay on input line 253.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 253.
+LaTeX Font Info:    ... okay on input line 253.
+LaTeX Font Info:    Checking defaults for OMS/jkp/m/n on input line 253.
+LaTeX Font Info:    Try loading font information for OMS+jkp on input line 253.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\omsjkp.fd
 File: omsjkp.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    ... okay on input line 252.
-LaTeX Font Info:    Checking defaults for OMX/jkp/m/n on input line 252.
-LaTeX Font Info:    Try loading font information for OMX+jkp on input line 252.
+LaTeX Font Info:    ... okay on input line 253.
+LaTeX Font Info:    Checking defaults for OMX/jkp/m/n on input line 253.
+LaTeX Font Info:    Try loading font information for OMX+jkp on input line 253.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\omxjkp.fd
 File: omxjkp.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    ... okay on input line 252.
-LaTeX Font Info:    Checking defaults for U/jkpexa/m/n on input line 252.
-LaTeX Font Info:    Try loading font information for U+jkpexa on input line 252.
+LaTeX Font Info:    ... okay on input line 253.
+LaTeX Font Info:    Checking defaults for U/jkpexa/m/n on input line 253.
+LaTeX Font Info:    Try loading font information for U+jkpexa on input line 253.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpexa.fd
 File: ujkpexa.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    ... okay on input line 252.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 252.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 252.
+LaTeX Font Info:    ... okay on input line 253.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 253.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 253.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 252.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 252.
-LaTeX Font Info:    ... okay on input line 252.
-LaTeX Font Info:    Try loading font information for T1+jkp on input line 252.
+LaTeX Font Info:    ... okay on input line 253.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 253.
+LaTeX Font Info:    ... okay on input line 253.
+LaTeX Font Info:    Try loading font information for T1+jkp on input line 253.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\t1jkp.fd
 File: t1jkp.fd 2007/01/24 Fontinst v1.928 font definitions for T1/jkp.
@@ -1632,17 +1632,17 @@ Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 ) ABD: EveryShipout initializing macros
-LaTeX Info: Redefining \degres on input line 252.
-LaTeX Info: Redefining \dots on input line 252.
+LaTeX Info: Redefining \degres on input line 253.
+LaTeX Info: Redefining \dots on input line 253.
 Package frenchb.ldf Info: Setting StandardItemizeEnv=true for
 (frenchb.ldf)             compatibility with enumitem package,
-(frenchb.ldf)             reported on input line 252.
+(frenchb.ldf)             reported on input line 253.
 Package frenchb.ldf Info: Setting StandardEnumerateEnv=true for
 (frenchb.ldf)             compatibility with enumitem package,
-(frenchb.ldf)             reported on input line 252.
-LaTeX Info: Redefining \up on input line 252.
+(frenchb.ldf)             reported on input line 253.
+LaTeX Info: Redefining \up on input line 253.
 \AtBeginShipoutBox=\box73
-Package hyperref Info: Link coloring OFF on input line 252.
+Package hyperref Info: Link coloring OFF on input line 253.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -1652,34 +1652,34 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count165
 )
-LaTeX Info: Redefining \ref on input line 252.
-LaTeX Info: Redefining \pageref on input line 252.
-LaTeX Info: Redefining \nameref on input line 252.
+LaTeX Info: Redefining \ref on input line 253.
+LaTeX Info: Redefining \pageref on input line 253.
+LaTeX Info: Redefining \nameref on input line 253.
  (rapport.out) (rapport.out)
 \@outlinefile=\write4
 \openout4 = `rapport.out'.
 
-LaTeX Font Info:    Try loading font information for OT1+jkp on input line 261.
+LaTeX Font Info:    Try loading font information for OT1+jkp on input line 262.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ot1jkp.fd
 File: ot1jkp.fd 2007/08/30 Fontinst v1.928 font definitions for OT1/jkp.
 )
-LaTeX Font Info:    Try loading font information for U+jkpsya on input line 261.
+LaTeX Font Info:    Try loading font information for U+jkpsya on input line 262.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpsya.fd
 File: ujkpsya.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+jkpsyb on input line 261.
+LaTeX Font Info:    Try loading font information for U+jkpsyb on input line 262.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpsyb.fd
 File: ujkpsyb.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+jkpmia on input line 261.
+LaTeX Font Info:    Try loading font information for U+jkpmia on input line 262.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpmia.fd
 File: ujkpmia.fd 2006/08/15 v1.0
 )
-LaTeX Font Info:    Try loading font information for U+jkpsyc on input line 261.
+LaTeX Font Info:    Try loading font information for U+jkpsyc on input line 262.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\ujkpsyc.fd
 File: ujkpsyc.fd 2006/08/15 v1.0
@@ -1687,95 +1687,121 @@ File: ujkpsyc.fd 2006/08/15 v1.0
 \tf@toc=\write5
 \openout5 = `rapport.toc'.
 
-LaTeX Font Info:    Try loading font information for T1+jkptt on input line 268.
+LaTeX Font Info:    Try loading font information for T1+jkptt on input line 269.
 
 (C:\Users\arian\AppData\Roaming\MiKTeX\2.9\tex\latex\kpfonts\t1jkptt.fd
 File: t1jkptt.fd 2007/01/26 Fontinst v1.928 font definitions for T1/jkptt.
 ) [1
 
-{C:/Users/arian/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] <Figures/graphe_occurrences_2.png, id=55, 505.89
+{C:/Users/arian/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] <Figures/graphe_occurrences_2.png, id=60, 505.89
 pt x 505.89pt>
 File: Figures/graphe_occurrences_2.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_2.png>
-Package pdftex.def Info: Figures/graphe_occurrences_2.png used on input line 341.
+Package pdftex.def Info: Figures/graphe_occurrences_2.png used on input line 344.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/graphe_occurrences_4.png, id=57, 505.89pt x 505.89pt>
+ <Figures/graphe_occurrences_4.png, id=62, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_4.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_4.png>
-Package pdftex.def Info: Figures/graphe_occurrences_4.png used on input line 341.
+Package pdftex.def Info: Figures/graphe_occurrences_4.png used on input line 344.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/graphe_occurrences_6.png, id=58, 505.89pt x 505.89pt>
+ <Figures/graphe_occurrences_6.png, id=63, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_6.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_6.png>
-Package pdftex.def Info: Figures/graphe_occurrences_6.png used on input line 343.
+Package pdftex.def Info: Figures/graphe_occurrences_6.png used on input line 346.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/graphe_occurrences_8.png, id=59, 505.89pt x 505.89pt>
+ <Figures/graphe_occurrences_8.png, id=64, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_8.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_8.png>
-Package pdftex.def Info: Figures/graphe_occurrences_8.png used on input line 343.
+Package pdftex.def Info: Figures/graphe_occurrences_8.png used on input line 346.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/graphe_occurrences_simul.png, id=61, 505.89pt x 505.89pt>
+ <Figures/graphe_occurrences_simul.png, id=66, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_simul.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_simul.png>
-Package pdftex.def Info: Figures/graphe_occurrences_simul.png used on input line 362.
+Package pdftex.def Info: Figures/graphe_occurrences_simul.png used on input line 365.
 (pdftex.def)             Requested size: 256.07741pt x 256.07838pt.
- [3] <Figures/histogramme_ATCTGC.png, id=74, 505.89pt x 505.89pt>
+ [3] <Figures/histogramme_ATCTGC.png, id=79, 505.89pt x 505.89pt>
 File: Figures/histogramme_ATCTGC.png Graphic file (type png)
 
 <use Figures/histogramme_ATCTGC.png>
-Package pdftex.def Info: Figures/histogramme_ATCTGC.png used on input line 378.
+Package pdftex.def Info: Figures/histogramme_ATCTGC.png used on input line 381.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/histogramme_ATATAT.png, id=75, 505.89pt x 505.89pt>
+ <Figures/histogramme_ATATAT.png, id=80, 505.89pt x 505.89pt>
 File: Figures/histogramme_ATATAT.png Graphic file (type png)
 
 <use Figures/histogramme_ATATAT.png>
-Package pdftex.def Info: Figures/histogramme_ATATAT.png used on input line 378.
+Package pdftex.def Info: Figures/histogramme_ATATAT.png used on input line 381.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/histogramme_TTTAAA.png, id=76, 505.89pt x 505.89pt>
+ <Figures/histogramme_TTTAAA.png, id=81, 505.89pt x 505.89pt>
 File: Figures/histogramme_TTTAAA.png Graphic file (type png)
 
 <use Figures/histogramme_TTTAAA.png>
-Package pdftex.def Info: Figures/histogramme_TTTAAA.png used on input line 380.
+Package pdftex.def Info: Figures/histogramme_TTTAAA.png used on input line 383.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/histogramme_AAAAAA.png, id=77, 505.89pt x 505.89pt>
+ <Figures/histogramme_AAAAAA.png, id=82, 505.89pt x 505.89pt>
 File: Figures/histogramme_AAAAAA.png Graphic file (type png)
 
 <use Figures/histogramme_AAAAAA.png>
-Package pdftex.def Info: Figures/histogramme_AAAAAA.png used on input line 380.
+Package pdftex.def Info: Figures/histogramme_AAAAAA.png used on input line 383.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
  [4 <./Figures/graphe_occurrences_2.png> <./Figures/graphe_occurrences_4.png> <./Figures/graphe_occurrences_6.png> <./Fi
 gures/graphe_occurrences_8.png>] [5 <./Figures/graphe_occurrences_simul.png>]
-<Figures/histogramme_ATATAT_errorbar.png, id=97, 505.89pt x 505.89pt>
+<Figures/histogramme_ATATAT_errorbar.png, id=102, 505.89pt x 505.89pt>
 File: Figures/histogramme_ATATAT_errorbar.png Graphic file (type png)
  <use Figures/histogramme_ATATAT_errorbar.png>
-Package pdftex.def Info: Figures/histogramme_ATATAT_errorbar.png used on input line 399.
+Package pdftex.def Info: Figures/histogramme_ATATAT_errorbar.png used on input line 402.
 (pdftex.def)             Requested size: 256.07741pt x 256.07838pt.
 
 [6 <./Figures/histogramme_ATCTGC.png> <./Figures/histogramme_ATATAT.png> <./Figures/histogramme_TTTAAA.png> <./Figures/h
-istogramme_AAAAAA.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 405.
- [7 <./Figures/histogramme_ATATAT_errorbar.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 405.
+istogramme_AAAAAA.png>] [7 <./Figures/histogramme_ATATAT_errorbar.png>] [8]
+<Figures/graphe_occurrences_Markov_2.png, id=130, 505.89pt x 505.89pt>
+File: Figures/graphe_occurrences_Markov_2.png Graphic file (type png)
+ <use Figures/graphe_occurrences_Markov_2.png>
+Package pdftex.def Info: Figures/graphe_occurrences_Markov_2.png used on input line 494.
+(pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
+
+<Figures/graphe_occurrences_Markov_4.png, id=131, 505.89pt x 505.89pt>
+File: Figures/graphe_occurrences_Markov_4.png Graphic file (type png)
+ <use Figures/graphe_occurrences_Markov_4.png>
+Package pdftex.def Info: Figures/graphe_occurrences_Markov_4.png used on input line 494.
+(pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
+
+<Figures/graphe_occurrences_Markov_6.png, id=132, 505.89pt x 505.89pt>
+File: Figures/graphe_occurrences_Markov_6.png Graphic file (type png)
+ <use Figures/graphe_occurrences_Markov_6.png>
+Package pdftex.def Info: Figures/graphe_occurrences_Markov_6.png used on input line 496.
+(pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
+
+<Figures/graphe_occurrences_Markov_8.png, id=133, 505.89pt x 505.89pt>
+File: Figures/graphe_occurrences_Markov_8.png Graphic file (type png)
+ <use Figures/graphe_occurrences_Markov_8.png>
+Package pdftex.def Info: Figures/graphe_occurrences_Markov_8.png used on input line 496.
+(pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
+
+[9]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 503.
+ [10 <./Figures/graphe_occurrences_Markov_2.png> <./Figures/graphe_occurrences_Markov_4.png> <./Figures/graphe_occurrenc
+es_Markov_6.png> <./Figures/graphe_occurrences_Markov_8.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 503.
  (rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 405.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 405.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 503.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 503.
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 94A4B30676258143FE1FDA550E7FC88F;388.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 405.
+(rerunfilecheck)             Checksum: 91AD23888EAC5B415AC157D72818FB4D;489.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 503.
  ) 
 Here is how much of TeX's memory you used:
- 24202 strings out of 493323
- 458651 string characters out of 3139066
- 568344 words of memory out of 3000000
- 27226 multiletter control sequences out of 15000+200000
+ 24247 strings out of 493323
+ 459876 string characters out of 3139066
+ 571991 words of memory out of 3000000
+ 27256 multiletter control sequences out of 15000+200000
  80201 words of font info for 100 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,12n,71p,1368b,423s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,12n,71p,1368b,436s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}{C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/kp
 fonts/kpfonts-expert.enc}<C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpbn8a.pfb><C:/Users/ari
 an/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpex.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type
@@ -1785,9 +1811,9 @@ arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpmn8a.pfb><C:/User
 Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpsy.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/f
 onts/type1/public/kpfonts/jkpsyb.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpttmn8a.pfb
 >
-Output written on rapport.pdf (7 pages, 249402 bytes).
+Output written on rapport.pdf (10 pages, 326328 bytes).
 PDF statistics:
- 155 PDF objects out of 1000 (max. 8388607)
- 29 named destinations out of 1000 (max. 500000)
- 103 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 195 PDF objects out of 1000 (max. 8388607)
+ 40 named destinations out of 1000 (max. 500000)
+ 131 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -241,3 +241,117 @@ def proba_empirique(mot, lg, m, N):
             proba[cpt] = 1
     return {cpt : proba[cpt]/N for cpt in proba}
 
+#------------------------------------------------------------------------------
+# Modèles de dinucléotides et trinucléotides
+#------------------------------------------------------------------------------
+
+def estim_M(seq):
+    """
+    Estime la matrice M d'une chaine de Markov à partir d'une séquence produite
+    par cette chaine.
+    
+    seq : séquence de nucléotides représentée par liste d'entiers entre 0 et 3.
+    """
+    cpt = comptage(seq, 2)
+    M = np.zeros((4, 4))
+    for cle in cpt:
+        lettres = inverse(cle, 2)
+        M[lettres[0], lettres[1]] = cpt[cle]
+    for i in range(4):
+        M[i, :] /= M[i, :].sum()
+    return M
+
+def simule_Markov(m, M, lg):
+    """
+    Simule une séquence de longueur lg à partir de la chaîne de Markov définie
+    par la matrice de transition M avec la probalité initiale m.
+    
+    m : tuple de taille 4 tel que m[i] contient la fréquence du
+        nucléotide représenté par i.
+    M : matrice de transition de la chaîne de Markov.
+    lg : longueur de la séquence à simuler.
+    """
+    seq = np.empty(lg, dtype=int)
+    seq[0] = np.random.choice(4, p = m)
+    for i in range(1, lg):
+        seq[i] = np.random.choice(4, p = M[seq[i-1], :])
+    return seq
+
+def logproba_mot_Markov(mot, m, M):
+    """
+    Calcule le log de la probabilité que le mot passé en argument soit produit
+    par la chaîne de Markov de matrice de transition M et probabilité
+    invariante m.
+    
+    mot : mot codé comme liste de nombres de 0 à 3.
+    m : probabilité invariante de la chaîne de Markov.
+    M : matrice de transition de la chaîne de Markov.
+    """
+    res = math.log(m[mot[0]])
+    for i in range(1, len(mot)):
+        res += math.log(M[mot[i-1], mot[i]])
+    return res
+    
+def comptage_attendu_Markov(m, M, k, l):
+    """
+    À partir de la chaîne de Markov déterminée par la matrice de transition M
+    et de probabilité invariante m, calcule l'espérence du nombre d'occurences
+    de chaque mot de longueur k dans une séquence de longueur l.
+    
+    m : probabilité invariante de la chaîne de Markov.
+    M : matrice de transition de la chaîne de Markov.
+    k : taille des mots à considérer.
+    l : taille de la séquence à considérer.
+    
+    Renvoie un tableau tab tel que tab[i] contient l'espérence du nombre
+    d'occurences du mot encodé par i.
+    """
+    tab = []
+    for i in range(pow(4, k)):
+        seq = inverse(i,k)
+        tab.append(math.exp(logproba_mot_Markov(seq, m, M)) * (l - (k - 1)))
+    return tab
+
+def graphe_occurrences_Markov(m, M, k, dict_sequences, filename = None):
+    """
+    Trace et enregistre le graphe avec les nombres d'occurences attendus et
+    observés pour des mots de taille k. Le calcul du nombre attendu est fait
+    en supposant un modèle par chaîne de Markov d'ordre 1.
+    
+    m : probabilité invariante de la chaîne de Markov.
+    M : matrice de transition de la chaîne de Markov.
+    k : taille des mots à considérer.
+    dict_sequences : dictionnaire avec les séquences pour les nombres
+                     d'occurrences observées. Les clés doivent être des
+                     chaînes de caractères décrivant les séquences.
+    """
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.grid(True)
+    ax.set_axisbelow(True)
+    
+    minVal = float("inf")
+    maxVal = -float("inf")
+    
+    for seq_name in dict_sequences:
+        sequence = dict_sequences[seq_name]
+        l = len(sequence)
+        x = comptage_attendu_Markov(m, M, k, l)
+        y = comptage(sequence, k) # Dictionnaire. On le transforme en liste.
+        y = [y[i] if i in y else 0 for i in range(4**k)]
+        minVal = min(min(x), min(y), minVal)
+        maxVal = max(max(x), max(y), maxVal)
+        ax.scatter(x, y, label=seq_name, zorder=3)
+    
+    ax.plot([minVal, maxVal], [minVal, maxVal], color="#999999", zorder=2)
+    ax.set_aspect("equal")
+    ax.set_xlabel("Nombre attendu")
+    ax.set_ylabel("Nombre observé")
+    ax.set_title("Nombre d'occurrences pour des mots de taille {:d}".format(k))
+    ax.legend(loc="lower right")
+    if filename is not None:
+        fig.savefig("Rapport/Figures/"+filename)
+    plt.show()
+    
+#------------------------------------------------------------------------------
+# Probabilités de mots
+#------------------------------------------------------------------------------
