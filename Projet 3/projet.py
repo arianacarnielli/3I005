@@ -10,6 +10,8 @@ import Projet_Bioinfo as pb
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from scipy.misc import factorial
+import scipy.stats as stats
 
 #==============================================================================
 # Préliminaires : données et lecture des fichiers
@@ -145,7 +147,7 @@ def comptage_attendu(freq, k, l):
     k : taille des mots à considérer.
     l : taille de la séquence à considérer.
     
-    Renvoie un tableau tab tel que tab[i] contient l'espérence du nombre
+    Renvoie un tableau tab tel que tab[i] contient l'espérance du nombre
     d'occurences du mot encodé par i.
     """
     tab = []
@@ -303,7 +305,7 @@ def comptage_attendu_Markov(m, M, k, l):
     k : taille des mots à considérer.
     l : taille de la séquence à considérer.
     
-    Renvoie un tableau tab tel que tab[i] contient l'espérence du nombre
+    Renvoie un tableau tab tel que tab[i] contient l'espérance du nombre
     d'occurences du mot encodé par i.
     """
     tab = []
@@ -355,3 +357,97 @@ def graphe_occurrences_Markov(m, M, k, dict_sequences, filename = None):
 #------------------------------------------------------------------------------
 # Probabilités de mots
 #------------------------------------------------------------------------------
+
+def proba_empirique_Markov(mot, lg, m, M, N):
+    """
+    Étant donné un mot, une longueur de séquence lg, les probabilités de chaque
+    lettre et un entier N, estime la loi de probabilité du nombre d'occurences
+    de mot dans des séquences aléatoires de longueur lg à partir de N tirages
+    de séquences aléatoires par la chaîne de Markov de matrice de transition M
+    et probabilité invariante m.
+    
+    mot : mot codé comme liste de nombres de 0 à 3.
+    lg : taille de la sequence à simuler.
+    m : probabilité invariante de la chaîne de Markov.
+    M : matrice de transition de la chaîne de Markov.
+    N : nombre de simulations à faire.
+    
+    Renvoie un dictionnaire proba tel que proba[i] donne la probabilité estimée
+    que le mot m apparaisse exactement i fois dans une séquence de longueur lg.
+    Si la probabilité estimée vaut 0, i n'apparait pas dans les clés du
+    dictionnaire.
+    """
+    proba = {}
+    k = len(mot)
+    code_mot = code(mot, k)
+    for i in range(N):
+        seq = simule_Markov(m, M, lg)
+        compt = comptage(seq, k)
+        if code_mot in compt:
+            cpt = compt[code_mot]
+        else:
+            cpt = 0
+        if cpt in proba:
+            proba[cpt] += 1
+        else:
+            proba[cpt] = 1
+    return {cpt : proba[cpt]/N for cpt in proba}
+
+def proba_Poisson(mot, m, M, lg, eps = 1e-4):
+    """
+    Calcule la loi de probabilite d'une variable aléatoire de type Poisson dont
+    le paramètre vaut p(lg - k + 1), où p est la probabilité d'occurrence du
+    mot passé en argument, lg est la longueur de la séquence où on cherche ce
+    mot et k est la longueur de ce mot. La loi de Poisson est calculée jusqu'à
+    ce que la probabilité cumulée soit supérieue à 1 - eps.
+    
+    mot : mot codé comme liste de nombres de 0 à 3.
+    m : probabilité invariante de la chaîne de Markov.
+    M : matrice de transition de la chaîne de Markov.
+    lg : taille de la sequence considérée.
+    eps : tolérance pour l'arrêt du calcul.
+    """
+    p = np.exp(logproba_mot_Markov(mot, m, M)) # Probabilité du mot
+    lamb = p * (lg - len(mot) + 1) # Paramètre de la loi de Poisson
+    pCumul = 0
+    k = 0
+    proba = []
+    while pCumul < 1 - eps:
+        proba.append((lamb**k)/factorial(k)*np.exp(-lamb))
+        pCumul += proba[-1]
+        k += 1
+    return proba
+
+def proba_Poisson_geq_n(mot, m, M, lg, n):
+    """
+    Calcule la probabilité P(N >= n), où N est une variable aléatoire de loi
+    Poisson dont le paramètre vaut p(lg - k + 1), où p est la probabilité
+    d'occurrence du mot passé en argument, lg est la longueur de la séquence où
+    on cherche ce mot et k est la longueur de ce mot.
+    
+    mot : mot codé comme liste de nombres de 0 à 3.
+    m : probabilité invariante de la chaîne de Markov.
+    M : matrice de transition de la chaîne de Markov.
+    lg : taille de la sequence considérée.
+    n : entier.
+    """
+    p = np.exp(logproba_mot_Markov(mot, m, M)) # Probabilité du mot
+    lamb = p * (lg - len(mot) + 1) # Paramètre de la loi de Poisson
+    poisson = stats.poisson(lamb)
+    return 1 - poisson.cdf(n-1)
+
+def proba_Poisson_from_list(m, M, k, seq, eps, verbose = False):
+    mots_res = []
+    lg = len(seq)
+    cpt = comptage(seq, k)
+    for i in range(4**k):
+        mot = inverse(i,k)
+        n = 0 if i not in cpt else cpt[i]
+        proba = proba_Poisson_geq_n(mot, m, M, lg, n)
+        if verbose:
+            print("Mot ",mot," :\n\tOccurrences : ",n,
+                  "\n\tP(N >= {:d}) = {:.4f}".format(n, proba), sep="")
+        if proba < eps:
+            mots_res.append(mot)
+    return mots_res
+    

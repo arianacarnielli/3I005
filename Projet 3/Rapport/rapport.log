@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.8)  11 APR 2019 02:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.8)  12 APR 2019 02:07
 entering extended mode
 **./rapport.tex
 (rapport.tex
@@ -1693,56 +1693,56 @@ LaTeX Font Info:    Try loading font information for T1+jkptt on input line 269.
 File: t1jkptt.fd 2007/01/26 Fontinst v1.928 font definitions for T1/jkptt.
 ) [1
 
-{C:/Users/arian/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] <Figures/graphe_occurrences_2.png, id=60, 505.89
+{C:/Users/arian/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] <Figures/graphe_occurrences_2.png, id=65, 505.89
 pt x 505.89pt>
 File: Figures/graphe_occurrences_2.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_2.png>
 Package pdftex.def Info: Figures/graphe_occurrences_2.png used on input line 344.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/graphe_occurrences_4.png, id=62, 505.89pt x 505.89pt>
+ <Figures/graphe_occurrences_4.png, id=67, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_4.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_4.png>
 Package pdftex.def Info: Figures/graphe_occurrences_4.png used on input line 344.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/graphe_occurrences_6.png, id=63, 505.89pt x 505.89pt>
+ <Figures/graphe_occurrences_6.png, id=68, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_6.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_6.png>
 Package pdftex.def Info: Figures/graphe_occurrences_6.png used on input line 346.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/graphe_occurrences_8.png, id=64, 505.89pt x 505.89pt>
+ <Figures/graphe_occurrences_8.png, id=69, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_8.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_8.png>
 Package pdftex.def Info: Figures/graphe_occurrences_8.png used on input line 346.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/graphe_occurrences_simul.png, id=66, 505.89pt x 505.89pt>
+ <Figures/graphe_occurrences_simul.png, id=71, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_simul.png Graphic file (type png)
 
 <use Figures/graphe_occurrences_simul.png>
 Package pdftex.def Info: Figures/graphe_occurrences_simul.png used on input line 365.
 (pdftex.def)             Requested size: 256.07741pt x 256.07838pt.
- [3] <Figures/histogramme_ATCTGC.png, id=79, 505.89pt x 505.89pt>
+ [3] <Figures/histogramme_ATCTGC.png, id=84, 505.89pt x 505.89pt>
 File: Figures/histogramme_ATCTGC.png Graphic file (type png)
 
 <use Figures/histogramme_ATCTGC.png>
 Package pdftex.def Info: Figures/histogramme_ATCTGC.png used on input line 381.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/histogramme_ATATAT.png, id=80, 505.89pt x 505.89pt>
+ <Figures/histogramme_ATATAT.png, id=85, 505.89pt x 505.89pt>
 File: Figures/histogramme_ATATAT.png Graphic file (type png)
 
 <use Figures/histogramme_ATATAT.png>
 Package pdftex.def Info: Figures/histogramme_ATATAT.png used on input line 381.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/histogramme_TTTAAA.png, id=81, 505.89pt x 505.89pt>
+ <Figures/histogramme_TTTAAA.png, id=86, 505.89pt x 505.89pt>
 File: Figures/histogramme_TTTAAA.png Graphic file (type png)
 
 <use Figures/histogramme_TTTAAA.png>
 Package pdftex.def Info: Figures/histogramme_TTTAAA.png used on input line 383.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
- <Figures/histogramme_AAAAAA.png, id=82, 505.89pt x 505.89pt>
+ <Figures/histogramme_AAAAAA.png, id=87, 505.89pt x 505.89pt>
 File: Figures/histogramme_AAAAAA.png Graphic file (type png)
 
 <use Figures/histogramme_AAAAAA.png>
@@ -1750,7 +1750,7 @@ Package pdftex.def Info: Figures/histogramme_AAAAAA.png used on input line 383.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
  [4 <./Figures/graphe_occurrences_2.png> <./Figures/graphe_occurrences_4.png> <./Figures/graphe_occurrences_6.png> <./Fi
 gures/graphe_occurrences_8.png>] [5 <./Figures/graphe_occurrences_simul.png>]
-<Figures/histogramme_ATATAT_errorbar.png, id=102, 505.89pt x 505.89pt>
+<Figures/histogramme_ATATAT_errorbar.png, id=107, 505.89pt x 505.89pt>
 File: Figures/histogramme_ATATAT_errorbar.png Graphic file (type png)
  <use Figures/histogramme_ATATAT_errorbar.png>
 Package pdftex.def Info: Figures/histogramme_ATATAT_errorbar.png used on input line 402.
@@ -1758,50 +1758,78 @@ Package pdftex.def Info: Figures/histogramme_ATATAT_errorbar.png used on input l
 
 [6 <./Figures/histogramme_ATCTGC.png> <./Figures/histogramme_ATATAT.png> <./Figures/histogramme_TTTAAA.png> <./Figures/h
 istogramme_AAAAAA.png>] [7 <./Figures/histogramme_ATATAT_errorbar.png>] [8]
-<Figures/graphe_occurrences_Markov_2.png, id=130, 505.89pt x 505.89pt>
+<Figures/graphe_occurrences_Markov_2.png, id=135, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_Markov_2.png Graphic file (type png)
  <use Figures/graphe_occurrences_Markov_2.png>
-Package pdftex.def Info: Figures/graphe_occurrences_Markov_2.png used on input line 494.
+Package pdftex.def Info: Figures/graphe_occurrences_Markov_2.png used on input line 493.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
 
-<Figures/graphe_occurrences_Markov_4.png, id=131, 505.89pt x 505.89pt>
+<Figures/graphe_occurrences_Markov_4.png, id=136, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_Markov_4.png Graphic file (type png)
  <use Figures/graphe_occurrences_Markov_4.png>
-Package pdftex.def Info: Figures/graphe_occurrences_Markov_4.png used on input line 494.
+Package pdftex.def Info: Figures/graphe_occurrences_Markov_4.png used on input line 493.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
 
-<Figures/graphe_occurrences_Markov_6.png, id=132, 505.89pt x 505.89pt>
+<Figures/graphe_occurrences_Markov_6.png, id=137, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_Markov_6.png Graphic file (type png)
  <use Figures/graphe_occurrences_Markov_6.png>
-Package pdftex.def Info: Figures/graphe_occurrences_Markov_6.png used on input line 496.
+Package pdftex.def Info: Figures/graphe_occurrences_Markov_6.png used on input line 495.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
 
-<Figures/graphe_occurrences_Markov_8.png, id=133, 505.89pt x 505.89pt>
+<Figures/graphe_occurrences_Markov_8.png, id=138, 505.89pt x 505.89pt>
 File: Figures/graphe_occurrences_Markov_8.png Graphic file (type png)
  <use Figures/graphe_occurrences_Markov_8.png>
-Package pdftex.def Info: Figures/graphe_occurrences_Markov_8.png used on input line 496.
+Package pdftex.def Info: Figures/graphe_occurrences_Markov_8.png used on input line 495.
 (pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
 
-[9]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 503.
- [10 <./Figures/graphe_occurrences_Markov_2.png> <./Figures/graphe_occurrences_Markov_4.png> <./Figures/graphe_occurrenc
-es_Markov_6.png> <./Figures/graphe_occurrences_Markov_8.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 503.
+[9] [10 <./Figures/graphe_occurrences_Markov_2.png> <./Figures/graphe_occurrences_Markov_4.png> <./Figures/graphe_occurr
+ences_Markov_6.png> <./Figures/graphe_occurrences_Markov_8.png>]
+<Figures/histogramme_Markov_Poisson_ATCTGC.png, id=159, 505.89pt x 505.89pt>
+File: Figures/histogramme_Markov_Poisson_ATCTGC.png Graphic file (type png)
+
+<use Figures/histogramme_Markov_Poisson_ATCTGC.png>
+Package pdftex.def Info: Figures/histogramme_Markov_Poisson_ATCTGC.png used on input line 519.
+(pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
+
+<Figures/histogramme_Markov_Poisson_ATATAT.png, id=160, 505.89pt x 505.89pt>
+File: Figures/histogramme_Markov_Poisson_ATATAT.png Graphic file (type png)
+
+<use Figures/histogramme_Markov_Poisson_ATATAT.png>
+Package pdftex.def Info: Figures/histogramme_Markov_Poisson_ATATAT.png used on input line 519.
+(pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
+
+<Figures/histogramme_Markov_Poisson_TTTAAA.png, id=161, 505.89pt x 505.89pt>
+File: Figures/histogramme_Markov_Poisson_TTTAAA.png Graphic file (type png)
+
+<use Figures/histogramme_Markov_Poisson_TTTAAA.png>
+Package pdftex.def Info: Figures/histogramme_Markov_Poisson_TTTAAA.png used on input line 521.
+(pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
+
+<Figures/histogramme_Markov_Poisson_AAAAAA.png, id=162, 505.89pt x 505.89pt>
+File: Figures/histogramme_Markov_Poisson_AAAAAA.png Graphic file (type png)
+
+<use Figures/histogramme_Markov_Poisson_AAAAAA.png>
+Package pdftex.def Info: Figures/histogramme_Markov_Poisson_AAAAAA.png used on input line 521.
+(pdftex.def)             Requested size: 213.39568pt x 213.39865pt.
+ [11] [12 <./Figures/histogramme_Markov_Poisson_ATCTGC.png> <./Figures/histogramme_Markov_Poisson_ATATAT.png> <./Figures
+/histogramme_Markov_Poisson_TTTAAA.png> <./Figures/histogramme_Markov_Poisson_AAAAAA.png>] [13]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 558.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 558.
  (rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 503.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 503.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 558.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 558.
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 91AD23888EAC5B415AC157D72818FB4D;489.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 503.
+(rerunfilecheck)             Checksum: CA09E620A1A231E904CB90233443C246;562.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 558.
  ) 
 Here is how much of TeX's memory you used:
- 24247 strings out of 493323
- 459876 string characters out of 3139066
- 571991 words of memory out of 3000000
- 27256 multiletter control sequences out of 15000+200000
+ 24285 strings out of 493323
+ 461034 string characters out of 3139066
+ 571257 words of memory out of 3000000
+ 27280 multiletter control sequences out of 15000+200000
  80201 words of font info for 100 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,12n,71p,1368b,436s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,12n,71p,1368b,503s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}{C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/enc/dvips/kp
 fonts/kpfonts-expert.enc}<C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpbn8a.pfb><C:/Users/ari
 an/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpex.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type
@@ -1811,9 +1839,9 @@ arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpmn8a.pfb><C:/User
 Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpsy.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/f
 onts/type1/public/kpfonts/jkpsyb.pfb><C:/Users/arian/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/kpfonts/jkpttmn8a.pfb
 >
-Output written on rapport.pdf (10 pages, 326328 bytes).
+Output written on rapport.pdf (13 pages, 395009 bytes).
 PDF statistics:
- 195 PDF objects out of 1000 (max. 8388607)
- 40 named destinations out of 1000 (max. 500000)
- 131 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 232 PDF objects out of 1000 (max. 8388607)
+ 50 named destinations out of 1000 (max. 500000)
+ 159 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -405,6 +405,7 @@ où $\hat p$ est la valeur estimée de $p$ et $t_\alpha$ est calculé à partir 
 \end{figure}
 
 \subsection{Modèles de dinucléotides et trinucléotides}
+\label{SecMarkov}
 
 \subsubsection*{Question 1}
 
@@ -484,9 +485,7 @@ On remarque ainsi qu'il y a des différences : certains mots, comme AA, CA, GA o
 
 \subsubsection*{Question 7}
 
-Pour un mot $w$ de taille $k$ qui ne se chevauche pas avec lui-même, le nombre maximal d'occurrences de ce mot dans une séquence de longueur $\ell$ vaut $\floor*{\frac{\ell}{k}}$. On divise ainsi la séquence de longueur $\ell$ en $\floor*{\frac{\ell}{k}}$ positions, chacune ayant une probabilité $p$ de contenir le mot $w$. En supposant que l'apparition de ce mot dans ces différentes positions sont indépendantes, on obtient alors que le nombre d'occurrences de ce mot suit une loi binomiale de paramètres $p$ et $\floor*{\frac{\ell}{k}}$.
-
-On a aussi recalculé les graphes représentant les nombres d'occurrences observés et attendus par le modèle de chaîne de Markov, qui sont représentés sur la Figure \ref{FigNbOccurrencesMarkov}. On observe des comportements similaires à ceux de la Figure \ref{FigNbOccurrences}.
+On a recalculé les graphes représentant les nombres d'occurrences observés et attendus par le modèle de chaîne de Markov, qui sont représentés sur la Figure \ref{FigNbOccurrencesMarkov}. On observe des comportements similaires à ceux de la Figure \ref{FigNbOccurrences}.
 
 \begin{figure}
 \centering
@@ -502,4 +501,58 @@ On a aussi recalculé les graphes représentant les nombres d'occurrences observ
 
 \subsection{Probabilités de mots}
 
+\subsubsection*{Question 1}
+
+Comme à la Question 2 de la Partie \ref{SecDescriptionEmpirique}, on fixe un mot $w = w_0 w_1 \dotsm w_{k-1}$ de longueur $k$ et on considère des séquences aléatoires $S$ de longueur $\ell$. On note par $X_i$ la variable aléatoire Bernoulli qui vaut $1$ si et seulement si le mot $w$ apparait à la position $i$ de $S$. Le nombre d'occurrences de $w$ dans $S$ est donc $X = \sum_{i=0}^{\ell - k} X_i$. En faisant l'hypothèse, comme indiqué à l'énoncé, que les différentes positions d'occurrences du mot $w$ sont indépendantes, $X$ est alors une somme de variables aléatoires indépendantes et Bernoulli de même paramètre $p$, et donc $X$ suit une loi binomiale de paramètres $p$ et $\ell - k + 1$. Rappelons que, d'après la Question 4 de la Partie \ref{SecMarkov}, on a $p = m(w_0) M(w_0, w_1) \dotsm M(w_{k-2}, w_{k-1})$.
+
+\subsubsection*{Question 2}
+
+Si $\ell - k + 1$ est grand, on peut approcher la loi binomiale de $X$ par une loi de Poisson de paramètre $\lambda = (\ell - k + 1) p$.
+
+\subsubsection*{Question 3}
+
+On a calculé la distribution de probabilité empirique des mots ATCTGC, ATATAT, TTTAAA et AAAAAA en simulant 1000 séquences aléatoires de taille 10000 avec le modèle de dinucléotide par chaîne de Markov et tracé les histogrammes correspondants, qui sont données dans la Figure \ref{FigHistogrammesPoisson}. On y représente aussi des points donnant la loi de Poisson avec le paramètre de la Question 2. On remarque que les histogrammes des probabilités empiriques des mots ATCTGC et TTTAAA, qui ne se chevauchent pas, sont très proches de la loi de Poisson de la Question 2. Même avec les chevauchements possibles, l'histogramme du mot ATATAT est lui aussi assez proche de la loi de Poisson correspondante. Cependant, à cause du grand nombre de chevauchements possibles, l'histogramme du mot AAAAAA s'écarte beaucoup de la loi de Poisson, indiquant que l'hypothèse d'indépendance utilisée à la Question 1 pour modéliser le nombre d'occurrences par une variable binomiale n'est pas pertinente dans ce cas.
+
+\begin{figure}
+\centering
+\begin{tabular}{@{} c @{} c @{}}
+\includegraphics[width=0.5\textwidth]{Figures/histogramme_Markov_Poisson_ATCTGC.png} & \includegraphics[width=0.5\textwidth]{Figures/histogramme_Markov_Poisson_ATATAT.png} \tabularnewline
+(a) & (b) \tabularnewline
+\includegraphics[width=0.5\textwidth]{Figures/histogramme_Markov_Poisson_TTTAAA.png} & \includegraphics[width=0.5\textwidth]{Figures/histogramme_Markov_Poisson_AAAAAA.png} \tabularnewline
+(c) & (d) \tabularnewline
+\end{tabular}
+\caption{Histogrammes avec les probabilités estimées du nombre d'occurrences et la loi de Poisson correspondante pour les mots (a) ATCTGC, (b) ATATAT, (c) TTTAAA et (d) AAAAAA.}
+\label{FigHistogrammesPoisson}
+\end{figure}
+
+\subsubsection*{Question 4}
+
+La fonction \verb@proba_Poisson@ calcule la probabilité d'occurrence d'un mot selon la loi de Poisson de la Question 2. Elle utilise pour cela le mot, la matrice de transition $M$ de la chaîne de Markov et sa probabilité invariante $m$ du modèle dinucléotide pour estimer la probabilité d'occurrence de ce mot dans une suite dont la longueur est passée en argument. Comme la loi de Poisson a un support infini, on s'arrête dès que la probabilité cumulée est supérieure à $1 - \varepsilon$, où $\varepsilon$ est une valeur de tolérance passée en argument.
+
+La fonction \verb@proba_Poisson_geq_n@ calcule, pour un mot et une longueur de séquence données, la probabilité $P(N \geq n)$, où $N$ est une variable aléatoire de loi Poisson avec le paramètre donné à la Question 2. Elle utilise pour cela la fonction de répartition de la loi de Poisson déjà disponible dans le module \verb@scipy.stats@ de Python. Cette fonction est utilisée ensuite pour coder la fonction \verb@proba_Poisson_from_list@ qui, étant donnée une longueur de mot $k$, une séquence de nucléotides et une valeur de $\varepsilon$, détermine tous les mots $w$ à $k$ lettres tels que la probabilité que le nombre d'occurrences $N_w$ de $w$ dans une séquence aléatoire obtenue par une chaîne de Markov soit supérieur ou égal au nombre d'occurrences observé $n_w$ dans la séquence est inférieure à $\varepsilon$, i.e., tous les mots $w$ tels que $P(N_w \geq n_w) < \varepsilon$. Elle renvoie la liste de ces mots.
+
+\subsubsection*{Question 5}
+
+On a appliqué la fonction \verb@proba_Poisson_geq_n@ de la question précédente aux séquences PHO, GAL et MET. Les résultats sont donnés dans le fichier \verb@Projet3.ipynb@. On observe que, même pour des valeurs assez petites de $\varepsilon$, on a une grande quantité de mots qui apparaissent un nombre significativement plus qu'attendu dans ces séquences. Par exemple, pour la séquence PHO, on a les mots suivants avec $\varepsilon = 0,001$ :
+
+\newpage
+
+\begin{itemize}
+\raggedright
+\item Mots de longueur 2 :
+
+\texttt{AA GC}
+
+\item Mots de longueur 4 :
+
+\texttt{AAAA AAGA ACGT AGAA CAGC CGTG TATA}
+
+\item Mots de longueur 6 :
+
+\texttt{AAAAAA AAAAAG AAACGT AAATTA AAGAAA AAGAAG ACGTAT ACGTGC ACGTGG AGCAGC CAACAA CAAGAA CACGTG CGTGGG GAAGAA GCACGT GCAGCA GCAGCG TATATA TCATCT TGCCAA}
+
+\item Mots de longueur 8 :
+
+\texttt{AAAAAAAA AAAAAAAG AAAAAAGA AAAGTAAA AACAACAA AAGAAATG AAGAAGAA ACACGTGG ACAGCAGC ACGCTCTC ACGTATAT ACGTGCAG AGAAGAAG AGCAGCGG AGGAAGAA ATAGGCGC ATATAAGC CAAAAAAA CAAGAATG CACACGTG CACGTGGG CAGCAGCG CCTCATCT CGGAAGAG CGTATATA CGTGCAGC CGTTTTCG CTCGTAAG GAAAAATT GAAGAAGA GCGTATTA GGAAGAGC GTATATAA TAAAAAAA TACGGGAC TATATAAG TCACACGT TCGTAAGG}
+\end{itemize}
 \end{document}
